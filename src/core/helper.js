@@ -1,14 +1,12 @@
-import Popper from './popper.js';
-
 //Update popper position
-function updatePopperObjectPosition(cyElement) {
+module.exports.updatePopperObjectPosition = function (cyElement) {
     var popper = cyElement.scratch('popper');
     popper.scheduleUpdate();
     return popper;
-}
+};
 
 //Return dimensions
-function getPopperObjectDimensions(cyElement, isNode) {
+module.exports.getPopperObjectDimensions = function (cyElement, isNode) {
     //Set Defaults
     var width = 3;
     var height = 3;
@@ -21,10 +19,10 @@ function getPopperObjectDimensions(cyElement, isNode) {
 
     //Return a dimension object
     return { w: width, h: height };
-}
+};
 
 //Return the bounding rectangle for the given element
-function getPopperBoundingBox(cyElement, cy, isNode, dim) {
+module.exports.getPopperBoundingBox = function (cyElement, cy, isNode, dim) {
     var position;
 
     if (isNode) {
@@ -37,7 +35,7 @@ function getPopperBoundingBox(cyElement, cy, isNode, dim) {
     var cyOffset = cy.container().getBoundingClientRect();
 
     //Exit if position is invalid
-    if (!position || position.x == null || isNaN(position.x)){
+    if (!position || position.x == null || isNaN(position.x)) {
         return;
     }
 
@@ -50,71 +48,33 @@ function getPopperBoundingBox(cyElement, cy, isNode, dim) {
         width: dim.w,
         height: dim.h,
     };
-}
-
-//Generate a options object to wrap the given user options
-module.exports.createPopperOptionsObject = function (userOptions) {
-    var options = Object.assign({}, userOptions);
-
-    //If id is undefined, created a unique id based on time
-    if (!(userOptions.id)) {
-        options.id = 'cy-popper-target-' + (Date.now() + Math.round(Math.random() + 10000));
-    }
-
-    return options;
 };
 
-//Create a new popper object associated with a cytoscape element (Nodes or Edges)
-module.exports.createPopperObject = function (cyElement) {
-    //If popper object already exists, update its position 
-    if (cyElement.scratch('popper')) {
-        return updatePopperObjectPosition(cyElement);
+//Return Popper Target (The element to bind popper to)
+module.exports.getPopperObjectTarget = function (cyElement, targetOpt) {
+    var target = null;
+
+    //If target option is invalid, return error
+    if (!(targetOpt)) {
+        throw "Error : NULL Target";
     }
-    //Otherwise create a new popper object
+    //Execute function if user opted for a dyanamic target
+    else if (typeof targetOpt === 'function') {
+        target = document.getElementById(targetOpt(cyElement));
+    }
+    //Treat target option as an ID if  user opted for a static target
+    else if (typeof targetOpt === 'string') {
+        target = document.getElementById(targetOpt.substr(1));
+    }
     else {
-        //Determine element properties to determine hoe to draw popper object
-        var isCy = cyElement.pan !== undefined && typeof cyElement.pan === 'function';
-        var iscyElement = !isCy;
-        var isNode = iscyElement && cyElement.isNode();
-        var cy = isCy ? cyElement : cyElement.cy();
+        throw "Error : No Target";
+    }
 
-        //Get Demensions for popper (Set Default to 3,3)
-        var dim = getPopperObjectDimensions(cyElement, isNode);
-
-        //Define popper object
-        var refObject = {
-            getBoundingClientRect: function () {
-                return  getPopperBoundingBox(cyElement, cy, isNode, dim);
-            },
-            get clientWidth() {
-                return dim.w;
-            },
-            get clientHeight() {
-                return dim.h;
-            },
-        };
-
-        var popperOpts = cyElement.scratch('popper-opts');
-        popperOpts.placement = popperOpts.placement || 'bottom';
-        var targetOpt = cyElement.scratch('popper-target');
-        var target = null;
-
-        if (!targetOpt) {
-            return;
-        } else {
-            if (typeof targetOpt === 'function') {
-                target = document.getElementById(targetOpt(cyElement));
-            } else if (typeof targetOpt === 'string') {
-                target = document.getElementById(targetOpt.substr(1));
-                if (target === null) {
-                    return;
-                }
-            } else {
-                return;
-            }
-        }
-        var popper = new Popper(refObject, target, popperOpts);
-        return popper;
+    //Check validity of parsed target
+    if (target === null) {
+        throw "Error : No Target";
+    } else {
+        return target;
     }
 
 };

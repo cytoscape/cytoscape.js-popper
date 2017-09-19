@@ -1,4 +1,4 @@
-const helper = require('./helper.js');
+const popperRenderer = require('./render.js');
 
 //Create a popper object on each elements in collection 
 module.exports = function (userOptions) {
@@ -9,12 +9,12 @@ module.exports = function (userOptions) {
     //Loop over each element in the current collection
     elements.each(function (element, i){
         //Create options object for current element
-        var options = helper.createPopperOptionsObject(userOptions);
+        var options = popperRenderer.createPopperOptionsObject(userOptions);
         element.scratch('popper-opts', options.popper || {});
         element.scratch('popper-target', options.target);
 
         //Create popper object
-        var popper =  helper.createPopperObject(element);
+        var popper =  popperRenderer.createPopperObject(element);
         element.scratch('popper', popper);
     });
 
