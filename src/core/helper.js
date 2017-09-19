@@ -1,5 +1,27 @@
-
 import Popper from './popper.js';
+
+//Update popper position
+function updatePopperObjectPosition(cyElement) {
+    var popper = cyElement.scratch('popper');
+    popper.scheduleUpdate();
+    return popper;
+}
+
+//Return dimensions
+function getPopperObjectDimensions(cyElement, isNode) {
+    //Set Defaults
+    var width = 3;
+    var height = 3;
+
+    //Overide with the outer-dimensions if the element is a node
+    if (isNode) {
+        width = cyElement.renderedOuterWidth();
+        height = cyElement.renderedOuterHeight();
+    }
+
+    //Return a dimension object
+    return { w: width, h: height };
+}
 
 //Generate a options object to wrap the given user options
 module.exports.createPopperOptionsObject = function (userOptions) {
@@ -17,9 +39,7 @@ module.exports.createPopperOptionsObject = function (userOptions) {
 module.exports.createPopperObject = function (cyElement) {
     //If popper object already exists, update its position 
     if (cyElement.scratch('popper')) {
-        var popper = cyElement.scratch('popper');
-        popper.scheduleUpdate();
-        return popper;
+        return updatePopperObjectPosition(cyElement);
     }
     //Otherwise create a new popper object
     else {
@@ -30,17 +50,7 @@ module.exports.createPopperObject = function (cyElement) {
         var cy = isCy ? cyElement : cyElement.cy();
 
         //Get Demensions for popper (Set Default to 3,3)
-        var dim = isNode ? {
-            get w() {
-                return cyElement.renderedOuterWidth();
-            },
-            get h() {
-                return cyElement.renderedOuterHeight();
-            }
-        } : {
-                w: 3,
-                h: 3,
-            };
+        var dim = getPopperObjectDimensions(cyElement, isNode);
 
         //Define popper object
         var refObject = {
