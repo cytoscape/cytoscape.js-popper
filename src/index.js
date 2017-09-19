@@ -1,10 +1,15 @@
-const impl = require('./core');
+//Get dependencies
+const impl = require('./core/index.js');
+const collections = require('./core/collection.js');
 
 // registers the extension on a cytoscape lib ref
 let register = function( cytoscape ){
   if( !cytoscape ){ return; } // can't register if cytoscape unspecified
 
-  cytoscape( 'core', 'popper', impl ); // register with cytoscape.js
+  // register with cytoscape.js
+  cytoscape( 'core', 'popper', impl );  //Cytoscape Core
+  cytoscape( 'collection', 'popper', collections); //Cytoscape Collections
+
 };
 
 if( typeof cytoscape !== 'undefined' ){ // expose to global cytoscape (i.e. window.cytoscape)

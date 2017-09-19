@@ -2,96 +2,111 @@
 
 <html>
 
-	<head>
-		<title>cytoscape-popper.js demo</title>
+<head>
+	<title>cytoscape-popper.js demo</title>
 
-		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
 
-		<script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
+	<script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
 
-		<!-- for testing with local version of cytoscape.js -->
-		<!--<script src="../cytoscape.js/build/cytoscape.js"></script>-->
+	<!-- for testing with local version of cytoscape.js -->
+	<!--<script src="../cytoscape.js/build/cytoscape.js"></script>-->
 
-		<script src="cytoscape-popper.js"></script>
+	<script src="cytoscape-popper.js"></script>
 
-		<style>
-			body {
-				font-family: helvetica neue, helvetica, liberation sans, arial, sans-serif;
-				font-size: 14px;
-			}
+	<style>
+		body {
+			font-family: helvetica neue, helvetica, liberation sans, arial, sans-serif;
+			font-size: 14px;
+		}
 
-			#cy {
-				position: absolute;
-				left: 0;
-				top: 0;
-				bottom: 0;
-				right: 0;
-				z-index: 999;
-			}
+		#cy {
+			position: absolute;
+			left: 0;
+			top: 0;
+			bottom: 0;
+			right: 0;
+			z-index: 999;
+		}
 
-			h1 {
-				opacity: 0.5;
-				font-size: 1em;
-				font-weight: bold;
-			}
-		</style>
+		h1 {
+			opacity: 0.5;
+			font-size: 1em;
+			font-weight: bold;
+		}
+	</style>
 
-		<script>
-			document.addEventListener('DOMContentLoaded', function(){
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
 
-				var cy = window.cy = cytoscape({
-					container: document.getElementById('cy'),
+			var cy = window.cy = cytoscape({
+				container: document.getElementById('cy'),
 
-					style: [
-						{
-							selector: 'node',
-							style: {
-								'content': 'data(name)'
-							}
-						},
-
-						{
-							selector: 'edge',
-							style: {
-								'curve-style': 'bezier',
-								'target-arrow-shape': 'triangle'
-							}
+				style: [
+					{
+						selector: 'node',
+						style: {
+							'content': 'data(name)'
 						}
-					],
+					},
 
-					elements: {
-						nodes: [
-							{ data: { id: 'j', name: 'Jerry' } },
-							{ data: { id: 'e', name: 'Elaine' } },
-							{ data: { id: 'k', name: 'Kramer' } },
-							{ data: { id: 'g', name: 'George' } }
-						],
-						edges: [
-							{ data: { source: 'j', target: 'e' } },
-							{ data: { source: 'j', target: 'k' } },
-							{ data: { source: 'j', target: 'g' } },
-							{ data: { source: 'e', target: 'j' } },
-							{ data: { source: 'e', target: 'k' } },
-							{ data: { source: 'k', target: 'j' } },
-							{ data: { source: 'k', target: 'e' } },
-							{ data: { source: 'k', target: 'g' } },
-							{ data: { source: 'g', target: 'j' } }
-						]
+					{
+						selector: 'edge',
+						style: {
+							'curve-style': 'bezier',
+							'target-arrow-shape': 'triangle'
+						}
 					}
-				});
+				],
 
-				// demo your core ext
-				cy.popper( /* args... */ );
-
+				elements: {
+					nodes: [
+						{ data: { id: 'j', name: 'Jerry' } },
+						{ data: { id: 'e', name: 'Elaine' } },
+						{ data: { id: 'k', name: 'Kramer' } },
+						{ data: { id: 'g', name: 'George' } }
+					],
+					edges: [
+						{ data: { source: 'j', target: 'e' } },
+						{ data: { source: 'j', target: 'k' } },
+						{ data: { source: 'j', target: 'g' } },
+						{ data: { source: 'e', target: 'j' } },
+						{ data: { source: 'e', target: 'k' } },
+						{ data: { source: 'k', target: 'j' } },
+						{ data: { source: 'k', target: 'e' } },
+						{ data: { source: 'k', target: 'g' } },
+						{ data: { source: 'g', target: 'j' } }
+					]
+				}
 			});
-		</script>
-	</head>
 
-	<body>
-		<h1>cytoscape-popper demo</h1>
+			// demo your core ext
+			//cy.popper( /* args... */);
 
-		<div id="cy"></div>
+			// demo your core ext
+			cy.popper({
+				target: 'core-popper',
+				popper: {
+					placement: "top"
+				}
+			});
+			cy.nodes()[0].popper({
+				target: function (ele) { return 'popper-' + ele.id() },
+				popper: {
+				}
+			});
 
-	</body>
+		});
+	</script>
+</head>
+
+<body>
+	<h1>cytoscape-popper demo</h1>
+
+	<div id="cy"></div>
+	<div class="popper" id="popper-j">Element</div>
+	<div class="popper" id="core-popper">Core</div>
+
+</body>
 
 </html>
