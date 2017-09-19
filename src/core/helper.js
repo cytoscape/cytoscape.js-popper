@@ -83,7 +83,9 @@ module.exports.createPopperObject = function (cyElement) {
 
         //Define popper object
         var refObject = {
-            getBoundingClientRect: getPopperBoundingBox(cyElement, cy, isNode, dim),
+            getBoundingClientRect: function () {
+                return  getPopperBoundingBox(cyElement, cy, isNode, dim);
+            },
             get clientWidth() {
                 return dim.w;
             },
