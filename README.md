@@ -4,8 +4,9 @@ cytoscape-popper
 
 ## Description
 
-A Cytoscape.js extension for Popper.js
-Extension has been ported from the Joseph Stahl's implemention to the newer tooling layout used by the Cytoscape Consortium.
+A Cytoscape.js extension for integrating Popper.js.
+
+This Extension has been ported from the Joseph Stahl's implemention to the newer tooling layout used by the Cytoscape Consortium.
 
 
 ## Dependencies

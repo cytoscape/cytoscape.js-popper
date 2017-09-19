@@ -97,10 +97,6 @@ module.exports.createPopperObject = function (cyElement) {
                 return;
             }
         }
-        console.log(targetOpt);
-        console.log(refObject);
-        console.log(target);
-        console.log(popperOpts);
         var popper = new Popper(refObject, target, popperOpts);
         return popper;
     }
