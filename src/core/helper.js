@@ -23,6 +23,35 @@ function getPopperObjectDimensions(cyElement, isNode) {
     return { w: width, h: height };
 }
 
+//Return the bounding rectangle for the given element
+function getPopperBoundingBox(cyElement, cy, isNode, dim) {
+    var position;
+
+    if (isNode) {
+        position = cyElement.renderedPosition();
+    }
+    else {
+        position = undefined;
+    }
+
+    var cyOffset = cy.container().getBoundingClientRect();
+
+    //Exit if position is invalid
+    if (!position || position.x == null || isNaN(position.x)){
+        return;
+    }
+
+    //Return the bounding  box
+    return {
+        top: position.y + cyOffset.top + window.pageYOffset,
+        left: position.x + cyOffset.left + window.pageXOffset,
+        right: position.x + dim.w + cyOffset.left + window.pageXOffset,
+        bottom: position.y + dim.h + cyOffset.top + window.pageYOffset,
+        width: dim.w,
+        height: dim.h,
+    };
+}
+
 //Generate a options object to wrap the given user options
 module.exports.createPopperOptionsObject = function (userOptions) {
     var options = Object.assign({}, userOptions);
@@ -54,21 +83,7 @@ module.exports.createPopperObject = function (cyElement) {
 
         //Define popper object
         var refObject = {
-            getBoundingClientRect: function () {
-                var pos = isNode ? cyElement.renderedPosition() : undefined;
-                var cyOffset = cy.container().getBoundingClientRect();
-                if (!pos || pos.x === null || isNaN(pos.x)) {
-                    return;
-                }
-                return {
-                    top: pos.y + cyOffset.top + window.pageYOffset,
-                    left: pos.x + cyOffset.left + window.pageXOffset,
-                    right: pos.x + dim.w + cyOffset.left + window.pageXOffset,
-                    bottom: pos.y + dim.h + cyOffset.top + window.pageYOffset,
-                    width: dim.w,
-                    height: dim.h,
-                };
-            },
+            getBoundingClientRect: getPopperBoundingBox(cyElement, cy, isNode, dim),
             get clientWidth() {
                 return dim.w;
             },
@@ -76,6 +91,7 @@ module.exports.createPopperObject = function (cyElement) {
                 return dim.h;
             },
         };
+
         var popperOpts = cyElement.scratch('popper-opts');
         popperOpts.placement = popperOpts.placement || 'bottom';
         var targetOpt = cyElement.scratch('popper-target');
@@ -86,8 +102,6 @@ module.exports.createPopperObject = function (cyElement) {
         } else {
             if (typeof targetOpt === 'function') {
                 target = document.getElementById(targetOpt(cyElement));
-                console.log(targetOpt(cyElement));
-                console.log('hi');
             } else if (typeof targetOpt === 'string') {
                 target = document.getElementById(targetOpt.substr(1));
                 if (target === null) {
