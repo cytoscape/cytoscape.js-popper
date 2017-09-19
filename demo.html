@@ -6,7 +6,7 @@
 	<title>cytoscape-popper.js demo</title>
 
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
-
+	<link rel="stylesheet" href="popper.css">
 	<script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
 
 	<!-- for testing with local version of cytoscape.js -->
@@ -80,10 +80,7 @@
 				}
 			});
 
-			// demo your core ext
-			//cy.popper( /* args... */);
-
-			// demo your core ext
+			//Demo Popper
 			cy.popper({
 				target: 'core-popper',
 				popper: {
@@ -96,7 +93,19 @@
 				}
 			});
 
+			//Update Location on Pan / Zoom
+			cy.on('pan', function(){
+				var popper = cy.nodes()[0].scratch('popper');
+				popper.scheduleUpdate();
+			});
+
+			cy.on('zoom', function(){
+				var popper = cy.nodes()[0].scratch('popper');
+				popper.scheduleUpdate();
+			});
+
 		});
+		
 	</script>
 </head>
 
