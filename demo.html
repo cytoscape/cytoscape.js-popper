@@ -104,8 +104,12 @@
 				popper.scheduleUpdate();
 			});
 
+			cy.nodes().on('drag', function(){
+				var popper = cy.nodes()[0].scratch('popper');
+				popper.scheduleUpdate();
+			});
+
 		});
-		
 	</script>
 </head>
 
@@ -113,7 +117,7 @@
 	<h1>cytoscape-popper demo</h1>
 
 	<div id="cy"></div>
-	<div class="popper" id="popper-j">Element</div>
+	<div class="popper" id="popper-j">element</div>
 	<div class="popper" id="core-popper">Core</div>
 
 </body>
