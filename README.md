@@ -12,7 +12,7 @@ This Extension has been ported from the Joseph Stahl's implemention to the newer
 ## Dependencies
 
  * Cytoscape.js ^3.2.0
- * <List your dependencies here please>
+ * Popper.js ^1.12.0
 
 
 ## Usage instructions
