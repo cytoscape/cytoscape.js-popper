@@ -1,6 +1,6 @@
 //Include helper functions and Popper
 import Popper from 'popper.js';
-const helper = require('./helper.js');
+const createBoundingBox = require('./createBoundingBox.js');
 
 //Create a new popper object associated with a cytoscape element (Nodes or Edges)
 module.exports.createPopperObject = function (cyElement, userOptions) {
@@ -11,7 +11,7 @@ module.exports.createPopperObject = function (cyElement, userOptions) {
     var cy = isCy ? cyElement : cyElement.cy();
 
     //Get Demensions for popper (Set Default to 3,3)
-    var dim = helper.getPopperObjectDimensions(cyElement, userOptions);
+    var dim = createBoundingBox.getPopperObjectDimensions(cyElement, userOptions);
 
 
     //Define popper reference object
@@ -24,7 +24,7 @@ module.exports.createPopperObject = function (cyElement, userOptions) {
     else {
         var refObject = {
             getBoundingClientRect: userOptions.boundingBox ? userOptions.boundingBox : function () {
-                return helper.getPopperBoundingBox(cyElement, cy, isNode, dim, userOptions.boundingBox);
+                return createBoundingBox.getPopperBoundingBox(cyElement, cy, isNode, dim, userOptions.boundingBox);
             },
             get clientWidth() {
                 return dim.w;
@@ -34,7 +34,7 @@ module.exports.createPopperObject = function (cyElement, userOptions) {
             },
         };
     }
-    
+
     //Get Values from scratchpad
     var popperOpts = userOptions.popper;
     popperOpts.placement = popperOpts.placement || 'bottom';
@@ -43,7 +43,7 @@ module.exports.createPopperObject = function (cyElement, userOptions) {
 
     //Get target to bind popper to
     try {
-        target = helper.getPopperHtmlObject(cyElement, targetOpt);
+        target = createBoundingBox.getPopperHtmlObject(cyElement, targetOpt);
     }
     catch (e) {
         //Stop creating a popper
