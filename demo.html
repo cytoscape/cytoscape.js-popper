@@ -6,7 +6,6 @@
 	<title>cytoscape-popper.js demo</title>
 
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
-	<link rel="stylesheet" href="popper.css">
 	<script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
 
 	<!-- for testing with local version of cytoscape.js -->
@@ -14,10 +13,11 @@
 
 	<script src="cytoscape-popper.js"></script>
 
+	<!-- Styling is for demo purposes only -->
 	<style>
 		body {
 			font-family: helvetica neue, helvetica, liberation sans, arial, sans-serif;
-			font-size: 14px;
+			font-size: 14px
 		}
 
 		#cy {
@@ -26,17 +26,172 @@
 			top: 0;
 			bottom: 0;
 			right: 0;
-			z-index: 999;
+			z-index: 999
+		}
+
+		.link-anchor,
+		.rel {
+			position: relative
 		}
 
 		h1 {
-			opacity: 0.5;
+			opacity: .5;
 			font-size: 1em;
-			font-weight: bold;
+			font-weight: 700
+		}
+
+		.link-anchor {
+			width: 0;
+			font-size: .8em;
+			opacity: 0;
+			transition: opacity .2s ease-in-out
+		}
+
+		.anchor-wrapper {
+			border: none
+		}
+
+		.anchor-wrapper:hover .link-anchor {
+			opacity: 1
+		}
+
+		section h1[id]:focus,
+		section h2[id]:focus,
+		section h3[id]:focus,
+		section h4[id]:focus,
+		section h5[id]:focus {
+			outline: 0
+		}
+
+		p.thin {
+			font-weight: 100;
+			margin: 0;
+			line-height: 1.2em
+		}
+
+		p.bold {
+			font-weight: 900;
+			margin: -5px 0 0
+		}
+
+		.rel {
+			width: 30%;
+			margin: 0 auto;
+			text-align: center;
+			padding: 20px;
+			border-style: dotted;
+			border-color: #fff;
+			border-width: medium
+		}
+
+		.popper,
+		.tooltip {
+			position: absolute;
+			background: #FFC107;
+			color: #000;
+			width: 150px;
+			border-radius: 3px;
+			box-shadow: 0 0 2px rgba(0, 0, 0, .5);
+			padding: 10px;
+			text-align: center
+		}
+
+		.style5 .tooltip {
+			background: #1E252B;
+			color: #FFF;
+			max-width: 200px;
+			width: auto;
+			font-size: .8rem;
+			padding: .5em 1em
+		}
+
+		.popper .popper__arrow,
+		.tooltip .tooltip-arrow {
+			width: 0;
+			height: 0;
+			border-style: solid;
+			position: absolute;
+			margin: 5px;
+			border-color: #FFC107
+		}
+
+		.style5 .tooltip .tooltip-arrow {
+			border-color: #1E252B
+		}
+
+		.popper[x-placement^=top],
+		.tooltip[x-placement^=top] {
+			margin-bottom: 5px
+		}
+
+		.popper[x-placement^=top] .popper__arrow,
+		.tooltip[x-placement^=top] .tooltip-arrow {
+			border-width: 5px 5px 0;
+			border-left-color: transparent;
+			border-right-color: transparent;
+			border-bottom-color: transparent;
+			bottom: -5px;
+			left: calc(50% - 5px);
+			margin-top: 0;
+			margin-bottom: 0
+		}
+
+		.popper[x-placement^=bottom],
+		.tooltip[x-placement^=bottom] {
+			margin-top: 5px
+		}
+
+		.popper[x-placement^=bottom] .popper__arrow,
+		.tooltip[x-placement^=bottom] .tooltip-arrow {
+			border-width: 0 5px 5px;
+			border-left-color: transparent;
+			border-right-color: transparent;
+			border-top-color: transparent;
+			top: -5px;
+			left: calc(50% - 5px);
+			margin-top: 0;
+			margin-bottom: 0
+		}
+
+		.popper[x-placement^=right],
+		.tooltip[x-placement^=right] {
+			margin-left: 5px
+		}
+
+		.popper[x-placement^=right] .popper__arrow,
+		.tooltip[x-placement^=right] .tooltip-arrow {
+			border-width: 5px 5px 5px 0;
+			border-left-color: transparent;
+			border-top-color: transparent;
+			border-bottom-color: transparent;
+			left: -5px;
+			top: calc(50% - 5px);
+			margin-left: 0;
+			margin-right: 0
+		}
+
+		.popper[x-placement^=left],
+		.tooltip[x-placement^=left] {
+			margin-right: 5px
+		}
+
+		.popper[x-placement^=left] .popper__arrow,
+		.tooltip[x-placement^=left] .tooltip-arrow {
+			border-width: 5px 0 5px 5px;
+			border-top-color: transparent;
+			border-right-color: transparent;
+			border-bottom-color: transparent;
+			right: -5px;
+			top: calc(50% - 5px);
+			margin-left: 0;
+			margin-right: 0
 		}
 	</style>
 
 	<script>
+		//Test Popper
+		var popperTest, popperTest2;
+
 		document.addEventListener('DOMContentLoaded', function () {
 
 			var cy = window.cy = cytoscape({
@@ -61,7 +216,7 @@
 
 				elements: {
 					nodes: [
-						{ data: { id: 'j', name: 'Jerry' } },
+						{ data: { id: 'j', name: 'Sticky' } },
 						{ data: { id: 'e', name: 'Elaine' } },
 						{ data: { id: 'k', name: 'Kramer' } },
 						{ data: { id: 'g', name: 'George' } }
@@ -80,46 +235,86 @@
 				}
 			});
 
-			//Demo Popper
-			cy.popper({
-				target: 'core-popper',
+			//Sample Reference Object 
+			var refObject = {
+				getBoundingClientRect: function (data) {
+					return {
+						top: 5 + window.pageYOffset,
+						left: 5 + window.pageXOffset,
+						right: 5 + window.pageXOffset,
+						bottom: 220 + window.pageYOffset,
+						width: 1,
+						height: 1,
+					};
+				},
+				get clientWidth() {
+					return 30;
+				},
+				get clientHeight() {
+					return 30;
+				},
+			};
+
+
+			//Create Basic Popper
+			popperTest = cy.nodes()[0].popper({
+				target: "popper-j",
 				popper: {
-					placement: "top"
+					placement: "bottom"
+				},
+			});
+
+			//Bind Basic Popper
+			cy.elements().nodes()[0].on('drag', function () {
+				popperTest.scheduleUpdate();
+			});
+
+			//Bind Popper with Custom Bounding Box
+			popperTest2 = cy.popper({
+				target: "core-popper",
+				popper: {
+					placement: "bottom"
+				},
+				boundingBox: function (data) {
+					return {
+						top: 450 + window.pageYOffset,
+						left: 600 + window.pageXOffset,
+						right: 700 + window.pageXOffset,
+						bottom: 220 + window.pageYOffset,
+						width: 1,
+						height: 1,
+					};
 				}
 			});
-			cy.nodes()[0].popper({
-				target: function (ele) { return 'popper-' + ele.id() },
+
+					//Bind Popper with Custom Bounding Box
+			popperTest2 = cy.nodes()[0].popper({
+				target: "core-popper-ref",
+				refObject : refObject,
 				popper: {
+					placement: "bottom"
+				},
+				boundingBox: function (data) {
+					return {
+						top: 450 + window.pageYOffset,
+						left: 600 + window.pageXOffset,
+						right: 700 + window.pageXOffset,
+						bottom: 220 + window.pageYOffset,
+						width: 1,
+						height: 1,
+					};
 				}
 			});
-
-			//Update Location on Pan / Zoom
-			cy.on('pan', function(){
-				var popper = cy.nodes()[0].scratch('popper');
-				popper.scheduleUpdate();
-			});
-
-			cy.on('zoom', function(){
-				var popper = cy.nodes()[0].scratch('popper');
-				popper.scheduleUpdate();
-			});
-
-			cy.nodes().on('drag', function(){
-				var popper = cy.nodes()[0].scratch('popper');
-				popper.scheduleUpdate();
-			});
-
 		});
 	</script>
 </head>
 
 <body>
 	<h1>cytoscape-popper demo</h1>
-
 	<div id="cy"></div>
-	<div class="popper" id="popper-j">element</div>
-	<div class="popper" id="core-popper">Core</div>
-
+	<div class="popper" id="popper-j">Drag Me</div>
+	<div class="popper" id="core-popper">Core-Custom-Bounding-Box</div>
+	<div class="popper" id="core-popper-ref">Core-Custom-Reference-Object</div>
 </body>
 
 </html>

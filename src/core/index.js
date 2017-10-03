@@ -1,39 +1,29 @@
 const popperRenderer = require('./render.js');
 
 //Create a popper object (This is for use on the core)
-module.exports.core = function(userOptions){
+module.exports.core = function (userOptions) {
   //Get cytoscape object and container
   var cy = this;
-  var container = cy.container();
-
-  //Generate options and assign them on the scratchpad 
-  var options = popperRenderer.createPopperOptionsObject(userOptions);
-  cy.scratch('popper-opts', options.popper);
-  cy.scratch('popper-target', options.target);
 
   //Create popper object
-  var popper  = popperRenderer.createPopperObject(cy);
-  cy.scratch('popper', popper);
+  var popper = popperRenderer.createPopperObject(cy, userOptions);
 
-  return this; 
+  return popper;
 };
 
+//Create a popper object for  all elements in a collection
 module.exports.collection = function (userOptions) {
   var elements = this;
-  var cy = this.cy();
-  var container = cy.container();
+  var element = elements[0];
 
-  //Loop over each element in the current collection
-  elements.each(function (element, i){
-      //Create options object for current element
-      var options = popperRenderer.createPopperOptionsObject(userOptions);
-      element.scratch('popper-opts', options.popper || {});
-      element.scratch('popper-target', options.target);
+  //Popper.js Should only be used on 1 element
+  if (elements.length > 1) {
+    console.log("Popper.js Extension should only be used on one element.");
+    console.log("Ignoring all subsequent elements");
+  }
 
-      //Create popper object
-      var popper =  popperRenderer.createPopperObject(element);
-      element.scratch('popper', popper);
-  });
+  //Create popper object
+  var popper = popperRenderer.createPopperObject(element, userOptions);
 
-  return this; // chainability
+  return popper; // chainability
 };

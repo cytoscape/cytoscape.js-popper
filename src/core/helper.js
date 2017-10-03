@@ -6,30 +6,32 @@ module.exports.updatePopperObjectPosition = function (cyElement) {
 };
 
 //Return dimensions
-module.exports.getPopperObjectDimensions = function (cyElement, isNode) {
+module.exports.getPopperObjectDimensions = function (cyElement, userOptions) {
     //Set Defaults
     var width = 3;
     var height = 3;
 
-    //Overide with the outer-dimensions if the element is a node
-    if (isNode) {
-        width = cyElement.renderedOuterWidth();
-        height = cyElement.renderedOuterHeight();
+    //Overide with the outer-dimensions if a bounding box is provided
+    if (userOptions.boundingBox) {
+        width = userOptions.boundingBox.w;
+        height = userOptions.boundingBox.x;
     }
 
     //Return a dimension object
     return { w: width, h: height };
 };
 
-//Return the bounding rectangle for the given element
-module.exports.getPopperBoundingBox = function (cyElement, cy, isNode, dim) {
+//Wrap given bounding Box to match popper.js bounding box
+module.exports.getPopperBoundingBox = function (cyElement, cy, isNode, dim, boundingBox) {
     var position;
+
+    //Create a bounding box if one isn't provided
 
     if (isNode) {
         position = cyElement.renderedPosition();
     }
     else {
-        position = undefined;
+        position = cyElement.midpoint();
     }
 
     var cyOffset = cy.container().getBoundingClientRect();
@@ -51,7 +53,7 @@ module.exports.getPopperBoundingBox = function (cyElement, cy, isNode, dim) {
 };
 
 //Return Popper Target (The element to bind popper to)
-module.exports.getPopperObjectTarget = function (cyElement, targetOpt) {
+module.exports.getPopperHtmlObject = function (cyElement, targetOpt) {
     var target = null;
 
     //If target option is invalid, return error
@@ -64,15 +66,15 @@ module.exports.getPopperObjectTarget = function (cyElement, targetOpt) {
     }
     //Treat target option as an ID if  user opted for a static target
     else if (typeof targetOpt === 'string') {
-        target = document.getElementById(targetOpt.substr(1));
+        target = document.getElementById(targetOpt);
     }
     else {
-        throw "Error : No Target";
+        throw "Error : Target Does Not Exist";
     }
 
     //Check validity of parsed target
     if (target === null) {
-        throw "Error : No Target";
+        throw "Error : Target Could Not Be Found";
     } else {
         return target;
     }
