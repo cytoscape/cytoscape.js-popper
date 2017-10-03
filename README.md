@@ -55,8 +55,58 @@ Plain HTML/JS has the extension registered for you automatically, because no `re
 
 ## API
 
-TODO describe the API of the extension here.
+#### Basic Usage
+``` js
+//Create Basic Popper
+var popperTest = cy.nodes()[0].popper({
+  target: "targetID",
+  popper: popperOptions,
+  boundingBox : boundingBoxFunction
+});
+```
+* (Required) Target : Refers to the actual HTML content of your popper
+* (Optional) Options : Refer to [Popper.js](http://popper.js.org) for more information on popper options
+* (Optional) BoundingBox : Provides ability to manually set a bounding box
 
+#### Basic Binding (Sticky Tooltips)
+```js
+cy.elements().nodes()[0].on('drag', function () {
+		popperTest.scheduleUpdate();
+});
+```
+
+#### Popper With Custom Bounding Box
+```js
+//Bind Popper with Custom Bounding Box
+var popperTest2 = cy.popper({
+	target: "core-popper",
+		popper: {
+			placement: "bottom"
+		},
+		boundingBox: function (data) {
+			return {
+					top: 450 + window.pageYOffset,
+					left: 600 + window.pageXOffset,
+					right: 700 + window.pageXOffset,
+					bottom: 220 + window.pageYOffset,
+					width: 1,
+					height: 1,
+			};
+		}
+});
+```
+
+#### Overriding The Entire Reference Object
+```js
+//Bind Popper with Custom Bounding Box
+var popperTest3 = cy.nodes()[0].popper({
+ target: "core-popper-ref",
+		refObject : refObject,
+		popper: {
+		  placement: "bottom"
+    }
+ });
+```
 
 ## Build targets
 
