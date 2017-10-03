@@ -71,7 +71,7 @@ var popperTest = cy.nodes()[0].popper({
 #### Basic Binding (Sticky Tooltips)
 ```js
 cy.elements().nodes()[0].on('drag', function () {
-		popperTest.scheduleUpdate();
+   popperTest.scheduleUpdate();
 });
 ```
 
@@ -79,20 +79,20 @@ cy.elements().nodes()[0].on('drag', function () {
 ```js
 //Bind Popper with Custom Bounding Box
 var popperTest2 = cy.popper({
-	target: "core-popper",
-		popper: {
-			placement: "bottom"
-		},
-		boundingBox: function (data) {
-			return {
-					top: 450 + window.pageYOffset,
-					left: 600 + window.pageXOffset,
-					right: 700 + window.pageXOffset,
-					bottom: 220 + window.pageYOffset,
-					width: 1,
-					height: 1,
-			};
-		}
+   target: "core-popper",
+   popper: {
+     placement: "bottom"
+   },
+   boundingBox: function (data) {
+      return {
+        top: 450 + window.pageYOffset,
+        left: 600 + window.pageXOffset,
+        right: 700 + window.pageXOffset,
+        bottom: 220 + window.pageYOffset,
+        width: 1,
+        height: 1,
+      };
+  }
 });
 ```
 
@@ -100,10 +100,10 @@ var popperTest2 = cy.popper({
 ```js
 //Bind Popper with Custom Bounding Box
 var popperTest3 = cy.nodes()[0].popper({
- target: "core-popper-ref",
-		refObject : refObject,
-		popper: {
-		  placement: "bottom"
+  target: "core-popper-ref",
+  refObject : refObject,
+    popper: {
+       placement: "bottom"
     }
  });
 ```
