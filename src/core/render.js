@@ -1,6 +1,7 @@
 //Include helper functions and Popper
 import Popper from 'popper.js';
 const createBoundingBox = require('./createBoundingBox.js');
+const createReferenceObject = require('./createReferenceObject.js');
 
 //Create a new popper object associated with a cytoscape element (Nodes or Edges)
 module.exports.createPopperObject = function (cyElement, userOptions) {
@@ -10,30 +11,11 @@ module.exports.createPopperObject = function (cyElement, userOptions) {
     var isNode = iscyElement && cyElement.isNode();
     var cy = isCy ? cyElement : cyElement.cy();
 
-    //Get Demensions for popper (Set Default to 3,3)
+    //Get Dimensions for popper (Set Default to 3,3)
     var dim = createBoundingBox.getPopperObjectDimensions(cyElement, userOptions);
 
-
     //Define popper reference object
-    var refObject;
-
-    //Override if a reference override is provided
-    if (userOptions.refObject) {
-        refObject = userOptions.refObject;
-    }
-    else {
-        var refObject = {
-            getBoundingClientRect: userOptions.boundingBox ? userOptions.boundingBox : function () {
-                return createBoundingBox.getPopperBoundingBox(cyElement, cy, isNode, dim, userOptions.boundingBox);
-            },
-            get clientWidth() {
-                return dim.w;
-            },
-            get clientHeight() {
-                return dim.h;
-            },
-        };
-    }
+    var refObject = createReferenceObject.getRef(cyElement, userOptions);
 
     //Get Values from scratchpad
     var popperOpts = userOptions.popper;

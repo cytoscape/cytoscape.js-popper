@@ -14,7 +14,7 @@ module.exports.getPopperObjectDimensions = function (cyElement, userOptions) {
     //Overide with the outer-dimensions if a bounding box is provided
     if (userOptions.boundingBox) {
         width = userOptions.boundingBox.w;
-        height = userOptions.boundingBox.x;
+        height = userOptions.boundingBox.h;
     }
 
     //Return a dimension object
