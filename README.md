@@ -55,7 +55,7 @@ Plain HTML/JS has the extension registered for you automatically, because no `re
 
 ## API
 
-#### Basic Usage
+#### Popper Basic Usage 
 ``` js
 //Create Basic Popper
 var popperTest = cy.nodes()[0].popper({
@@ -64,9 +64,18 @@ var popperTest = cy.nodes()[0].popper({
   boundingBox : boundingBoxFunction
 });
 ```
+* Returns a Popper Object  
 * (Required) Target : Refers to the actual HTML content of your popper
 * (Optional) Options : Refer to [Popper.js](http://popper.js.org) for more information on popper options
 * (Optional) BoundingBox : Provides ability to manually set a bounding box
+
+#### Popper Ref Basic Usage
+``` js 
+cy.elements().nodes()[0].popperRef(options)
+```
+
+* Returns a Reference Object
+* (Optional) Options : Allows for the user to override the bounding box 
 
 #### Basic Binding (Sticky Tooltips)
 ```js
