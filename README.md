@@ -65,9 +65,9 @@ var popperTest = cy.nodes()[0].popper({
 });
 ```
 * Returns a Popper Object  
-* (Required)(String, Function, or HTML Element) Target : Refers to the actual HTML content of your popper. 
-* (Required)(Popper Options Object) Options : Refer to [Popper.js](http://popper.js.org) for more information on popper options
-* (Optional)(Bounding Box Object) BoundingBox : Provides ability to manually set a bounding box
+* (Required) (String, Function, or HTML Element) Target : Refers to the actual HTML content of your popper. 
+* (Required) Options : Refer to [Popper.js](http://popper.js.org) for more information on popper options
+* (Optional) BoundingBox : Provides ability to manually set a bounding box
 
 #### Popper Ref Basic Usage
 ``` js 
