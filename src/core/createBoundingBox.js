@@ -58,7 +58,7 @@ module.exports.getPopperHtmlObject = function (cyElement, targetOpt) {
 
     //If target option is invalid, return error
     if (!(targetOpt)) {
-        throw "Error : NULL Target";
+        throw new Exception("Error : NULL Target");
     }
     //Execute function if user opted for a dyanamic target
     else if (typeof targetOpt === 'function') {
@@ -68,13 +68,17 @@ module.exports.getPopperHtmlObject = function (cyElement, targetOpt) {
     else if (typeof targetOpt === 'string') {
         target = document.getElementById(targetOpt);
     }
+    //Target option is an HTML element
+    else if (targetOpt instanceof HTMLElement){
+        return targetOpt;
+    }
     else {
-        throw "Error : Target Does Not Exist";
+        throw new Exception("Error : Target Does Not Exist");
     }
 
     //Check validity of parsed target
     if (target === null) {
-        throw "Error : Target Could Not Be Found";
+        throw new Exception("Error : Target Could Not Be Found");
     } else {
         return target;
     }

@@ -53,8 +53,8 @@ module.exports.collectionRef = function (userOptions) {
 
   //Popper.js Should only be used on 1 element
   if (elements.length > 1) {
-    console.log("Popper.js Extension should only be used on one element.");
-    console.log("Ignoring all subsequent elements");
+    console.warn("Popper.js Extension should only be used on one element.");
+    console.warn("Ignoring all subsequent elements");
   }
 
   //Create a reference object
