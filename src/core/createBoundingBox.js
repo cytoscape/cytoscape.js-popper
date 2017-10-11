@@ -8,8 +8,8 @@ module.exports.updatePopperObjectPosition = function (cyElement) {
 //Return dimensions
 module.exports.getPopperObjectDimensions = function (cyElement, userOptions) {
     //Set Defaults
-    var width = 3;
-    var height = 3;
+    var width = cyElement.width();
+    var height = cyElement.height();
 
     //Overide with the outer-dimensions if a bounding box is provided
     if (userOptions.boundingBox) {

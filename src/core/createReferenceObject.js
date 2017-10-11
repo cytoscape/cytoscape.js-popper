@@ -20,14 +20,25 @@ module.exports.getRef= function (cyElement, userOptions) {
     }
     else {
         refObject = {
+
+            //Store copies of dimensions and cyElement objects
+            dim : dim,
+            cyElement : cyElement,
+
+            //Define the bounding box for the popper target
             getBoundingClientRect: userOptions.boundingBox ? userOptions.boundingBox : function () {
-                return createBoundingBox.getPopperBoundingBox(cyElement, cy, isNode, dim, userOptions.boundingBox);
+                return createBoundingBox.getPopperBoundingBox(cyElement, cy, isNode, this.dim, userOptions.boundingBox);
             },
+            //Dynamically generate the dimension object for height and width
             get clientWidth() {
-                return dim.w;
+                var newDim = createBoundingBox.getPopperObjectDimensions(this.cyElement, {});
+                this.dim = newDim;
+                return newDim.w;
             },
             get clientHeight() {
-                return dim.h;
+                var newDim = createBoundingBox.getPopperObjectDimensions(this.cyElement, {});
+                this.dim = newDim;
+                return newDim.h;
             },
         };
     }
