@@ -4,13 +4,15 @@ cytoscape-popper
 
 ## Description
 
-A Cytoscape.js extension for Popper.js
+A Cytoscape.js extension for integrating Popper.js.
+
+This Extension has been ported from the Joseph Stahl's implemention to the newer tooling layout used by the Cytoscape Consortium.
 
 
 ## Dependencies
 
  * Cytoscape.js ^3.2.0
- * <List your dependencies here please>
+ * Popper.js ^1.12.0
 
 
 ## Usage instructions
@@ -53,8 +55,67 @@ Plain HTML/JS has the extension registered for you automatically, because no `re
 
 ## API
 
-TODO describe the API of the extension here.
+#### Popper Basic Usage 
+``` js
+//Create Basic Popper
+var popperTest = cy.nodes()[0].popper({
+  target: "targetID",
+  popper: popperOptions,
+  boundingBox : boundingBoxFunction
+});
+```
+* Returns a Popper Object  
+* (Required) (String, Function, or HTML Element) Target : Refers to the actual HTML content of your popper. 
+* (Required) Options : Refer to [Popper.js](http://popper.js.org) for more information on popper options
+* (Optional) BoundingBox : Provides ability to manually set a bounding box
 
+#### Popper Ref Basic Usage
+``` js 
+cy.elements().nodes()[0].popperRef(options)
+```
+
+* Returns a Reference Object
+* (Optional) Options : Allows for the user to override the bounding box 
+
+#### Basic Binding (Sticky Tooltips)
+```js
+cy.elements().nodes()[0].on('drag', function () {
+   popperTest.scheduleUpdate();
+});
+```
+
+#### Popper With Custom Bounding Box
+```js
+//Bind Popper with Custom Bounding Box
+var popperTest2 = cy.popper({
+   target: "core-popper",
+   popper: {
+     placement: "bottom"
+   },
+   boundingBox: function (data) {
+      return {
+        top: 450 + window.pageYOffset,
+        left: 600 + window.pageXOffset,
+        right: 700 + window.pageXOffset,
+        bottom: 220 + window.pageYOffset,
+        width: 1,
+        height: 1,
+      };
+  }
+});
+```
+
+#### Overriding The Entire Reference Object
+```js
+//Bind Popper with Custom Bounding Box
+var popperTest3 = cy.nodes()[0].popper({
+  target: "core-popper-ref",
+  refObject : refObject,
+    popper: {
+       placement: "bottom"
+    }
+ });
+```
 
 ## Build targets
 
