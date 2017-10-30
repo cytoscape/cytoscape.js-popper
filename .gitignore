@@ -1,4 +1,4 @@
 node_modules
 npm-debug.log
-cytoscape-popper.js
 .DS_Store
+package-lock.json
