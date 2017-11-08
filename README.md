@@ -117,6 +117,18 @@ var popperTest3 = cy.nodes()[0].popper({
  });
 ```
 
+### Providing a custom position for nodes
+If you wish you may also provide a custom position by providing a function which returns a position object; 
+
+```
+userOptions = {
+  target : ...,
+  popper : ...,
+  boundingBox : ...,
+  position : positionFunc
+}
+```
+
 ## Build targets
 
 * `npm run test` : Run Mocha tests in `./test`
