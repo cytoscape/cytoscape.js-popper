@@ -37,3 +37,13 @@ module.exports.createPopperObject = function (cyElement, userOptions) {
 
 
 };
+
+//Resolve undefined errors 
+module.exports.resolveUndefined =  function (userOptions){
+    if(! userOptions){
+      return {};
+    }
+    else {
+      return userOptions;
+    }
+}
