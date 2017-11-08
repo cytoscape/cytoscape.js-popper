@@ -22,7 +22,7 @@ module.exports.getPopperObjectDimensions = function (cyElement, userOptions) {
 };
 
 //Wrap given bounding Box to match popper.js bounding box
-module.exports.getPopperBoundingBox = function (cyElement, cy, isNode, dim, boundingBox) {
+module.exports.getPopperBoundingBox = function (cyElement, cy, isNode, boundingBox) {
     var position;
 
     //Create a bounding box if one isn't provided
@@ -45,10 +45,10 @@ module.exports.getPopperBoundingBox = function (cyElement, cy, isNode, dim, boun
     return {
         top: position.y + cyOffset.top + window.pageYOffset,
         left: position.x + cyOffset.left + window.pageXOffset,
-        right: position.x + dim.w + cyOffset.left + window.pageXOffset,
-        bottom: position.y + dim.h + cyOffset.top + window.pageYOffset,
-        width: dim.w,
-        height: dim.h,
+        right: position.x + boundingBox.w + cyOffset.left + window.pageXOffset,
+        bottom: position.y + boundingBox.h + cyOffset.top + window.pageYOffset,
+        width: boundingBox.w,
+        height: boundingBox.h,
     };
 };
 
