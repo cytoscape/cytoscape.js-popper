@@ -28,18 +28,8 @@ module.exports.getPopperObjectDimensions = function (target, userOptions) {
 };
 
 //Wrap given bounding Box to match popper.js bounding box
-module.exports.getPopperBoundingBox = function (target, cy, isNode, boundingBox) {
-    var position;
-
-    //Create a bounding box if one isn't provided
-
-    if (isNode) {
-        position = target.renderedPosition();
-    }
-    else {
-        position = target.midpoint();
-    }
-
+module.exports.getPopperBoundingBox = function (target, cy, getPosition, boundingBox) {
+    var position = getPosition(target);
     var cyOffset = cy.container().getBoundingClientRect();
 
     //Exit if position is invalid

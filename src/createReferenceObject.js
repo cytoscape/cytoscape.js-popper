@@ -7,12 +7,18 @@ module.exports.getRef = function (target, userOptions) {
     var iscyElement = !isCy;
     var isNode = iscyElement && target.isNode();
     var cy = isCy ? target : target.cy();
+    var position = userOptions.position;
 
     //Get Dimensions for popper (Set Default to 3,3)
     var dim = createBoundingBox.getPopperObjectDimensions(target, userOptions);
 
     //Define popper reference object
     var refObject;
+
+    //Define position function if none is provided 
+    if (!(position)){
+        position = () => target.renderedPosition();
+    }
 
     //Override if a reference override is provided
     if (userOptions.refObject) {
@@ -27,7 +33,7 @@ module.exports.getRef = function (target, userOptions) {
 
             //Define the bounding box for the popper target
             getBoundingClientRect: userOptions.boundingBox ? userOptions.boundingBox : function () {
-                return createBoundingBox.getPopperBoundingBox(target, cy, isNode, this.dim, userOptions.boundingBox);
+                return createBoundingBox.getPopperBoundingBox(target, cy, position, this.dim, userOptions.boundingBox);
             },
             //Dynamically generate the dimension object for height and width
             get clientWidth() {
