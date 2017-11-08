@@ -7,6 +7,7 @@ module.exports.core = function (userOptions) {
   var cy = this;
 
   userOptions = popperRenderer.resolveUndefined(userOptions);
+  userOptions.core = true;
 
   //Create popper object
   var popper = popperRenderer.createPopperObject(cy, userOptions);
@@ -21,6 +22,7 @@ module.exports.coreRef = function (userOptions) {
   var cy = this;
 
   userOptions = popperRenderer.resolveUndefined(userOptions);
+  userOptions.core = true;
 
   //Create popper object
   var popperRef = createReferenceObject.getRef(cy, userOptions);

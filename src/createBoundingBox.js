@@ -17,6 +17,12 @@ module.exports.getPopperObjectDimensions = function (target, userOptions) {
         height = userOptions.boundingBox.h;
     }
 
+    //Override defaults with 3 if popper is called on core
+    if(userOptions.core){
+        width = 3;
+        height = 3;
+    }
+
     //Return a dimension object
     return { w: width, h: height };
 };
