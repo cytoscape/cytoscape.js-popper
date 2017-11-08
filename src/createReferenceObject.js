@@ -1,7 +1,7 @@
 const createBoundingBox = require('./createBoundingBox.js');
 
 //Create a reference object for an element
-module.exports.getRef= function (cyElement, userOptions) {
+module.exports.getRef = function (cyElement, userOptions) {
     //Determine element properties to determine how to generate a reference object
     var isCy = cyElement.pan !== undefined && typeof cyElement.pan === 'function';
     var iscyElement = !isCy;
@@ -22,8 +22,8 @@ module.exports.getRef= function (cyElement, userOptions) {
         refObject = {
 
             //Store copies of dimensions and cyElement objects
-            dim : dim,
-            cyElement : cyElement,
+            dim: dim,
+            cyElement: cyElement,
 
             //Define the bounding box for the popper target
             getBoundingClientRect: userOptions.boundingBox ? userOptions.boundingBox : function () {
