@@ -1,15 +1,15 @@
 //Update popper position
-module.exports.updatePopperObjectPosition = function (cyElement) {
-    var popper = cyElement.scratch('popper');
+module.exports.updatePopperObjectPosition = function (target) {
+    var popper = target.scratch('popper');
     popper.scheduleUpdate();
     return popper;
 };
 
 //Return dimensions
-module.exports.getPopperObjectDimensions = function (cyElement, userOptions) {
+module.exports.getPopperObjectDimensions = function (target, userOptions) {
     //Set Defaults
-    var width = cyElement.width();
-    var height = cyElement.height();
+    var width = target.width();
+    var height = target.height();
 
     //Overide with the outer-dimensions if a bounding box is provided
     if (userOptions.boundingBox) {
@@ -22,16 +22,16 @@ module.exports.getPopperObjectDimensions = function (cyElement, userOptions) {
 };
 
 //Wrap given bounding Box to match popper.js bounding box
-module.exports.getPopperBoundingBox = function (cyElement, cy, isNode, boundingBox) {
+module.exports.getPopperBoundingBox = function (target, cy, isNode, boundingBox) {
     var position;
 
     //Create a bounding box if one isn't provided
 
     if (isNode) {
-        position = cyElement.renderedPosition();
+        position = target.renderedPosition();
     }
     else {
-        position = cyElement.midpoint();
+        position = target.midpoint();
     }
 
     var cyOffset = cy.container().getBoundingClientRect();

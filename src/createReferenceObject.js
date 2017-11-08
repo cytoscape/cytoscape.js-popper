@@ -1,15 +1,15 @@
 const createBoundingBox = require('./createBoundingBox');
 
 //Create a reference object for an element
-module.exports.getRef = function (cyElement, userOptions) {
+module.exports.getRef = function (target, userOptions) {
     //Determine element properties to determine how to generate a reference object
-    var isCy = cyElement.pan !== undefined && typeof cyElement.pan === 'function';
+    var isCy = target.pan !== undefined && typeof target.pan === 'function';
     var iscyElement = !isCy;
-    var isNode = iscyElement && cyElement.isNode();
-    var cy = isCy ? cyElement : cyElement.cy();
+    var isNode = iscyElement && target.isNode();
+    var cy = isCy ? target : target.cy();
 
     //Get Dimensions for popper (Set Default to 3,3)
-    var dim = createBoundingBox.getPopperObjectDimensions(cyElement, userOptions);
+    var dim = createBoundingBox.getPopperObjectDimensions(target, userOptions);
 
     //Define popper reference object
     var refObject;
@@ -23,11 +23,11 @@ module.exports.getRef = function (cyElement, userOptions) {
 
             //Store copies of dimensions and cyElement objects
             dim: dim,
-            cyElement: cyElement,
+            cyElement: target,
 
             //Define the bounding box for the popper target
             getBoundingClientRect: userOptions.boundingBox ? userOptions.boundingBox : function () {
-                return createBoundingBox.getPopperBoundingBox(cyElement, cy, isNode, this.dim, userOptions.boundingBox);
+                return createBoundingBox.getPopperBoundingBox(target, cy, isNode, this.dim, userOptions.boundingBox);
             },
             //Dynamically generate the dimension object for height and width
             get clientWidth() {

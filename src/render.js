@@ -11,19 +11,19 @@ if (EsmWebpackPopper != null && EsmWebpackPopper.Defaults != null) {
 }
 
 //Create a new popper object associated with a cytoscape element (Nodes or Edges)
-module.exports.createPopperObject = function (cyElement, userOptions) {
+module.exports.createPopperObject = function (target, userOptions) {
     //Define popper reference object
-    var refObject = createReferenceObject.getRef(cyElement, userOptions);
+    var refObject = createReferenceObject.getRef(target, userOptions);
 
     //Get Values from scratchpad
     var popperOpts = userOptions.popper;
     popperOpts.placement = popperOpts.placement || 'bottom';
     var targetOpt = userOptions.target;
-    var target = null;
+    var content = null;
 
     //Get target to bind popper to
     try {
-        target = createBoundingBox.getPopperHtmlObject(cyElement, targetOpt);
+        content = createBoundingBox.getPopperHtmlObject(target, targetOpt);
     }
     catch (e) {
         //Stop creating a popper
@@ -31,7 +31,7 @@ module.exports.createPopperObject = function (cyElement, userOptions) {
     }
 
     //Create and return actual popper object
-    var popper = new Popper(refObject, target, popperOpts);
+    var popper = new Popper(refObject, content, popperOpts);
 
     return popper;
 
