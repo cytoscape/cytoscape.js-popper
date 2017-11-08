@@ -53,34 +53,34 @@ module.exports.getPopperBoundingBox = function (cyElement, cy, isNode, dim, boun
 };
 
 //Return Popper Target (The element to bind popper to)
-module.exports.getPopperHtmlObject = function (cyElement, targetOpt) {
-    var target = null;
+module.exports.getPopperHtmlObject = function (target, content) {
+    var contentObject = null;
 
     //If target option is invalid, return error
-    if (!(targetOpt)) {
+    if (!(content)) {
         throw new Error("Error : NULL Target");
     }
     //Execute function if user opted for a dyanamic target
-    else if (typeof targetOpt === 'function') {
-        target = document.getElementById(targetOpt(cyElement));
+    else if (typeof content === 'function') {
+        contentObject = document.getElementById(content(target));
     }
     //Treat target option as an ID if  user opted for a static target
-    else if (typeof targetOpt === 'string') {
-        target = document.getElementById(targetOpt);
+    else if (typeof content === 'string') {
+        contentObject = document.getElementById(content);
     }
     //Target option is an HTML element
-    else if (targetOpt instanceof HTMLElement){
-        return targetOpt;
+    else if (content instanceof HTMLElement){
+        return content;
     }
     else {
         throw new Error("Error : Target Does Not Exist");
     }
 
     //Check validity of parsed target
-    if (target === null) {
+    if (contentObject === null) {
         throw new Error("Error : Target Could Not Be Found");
     } else {
-        return target;
+        return contentObject;
     }
 
 };
