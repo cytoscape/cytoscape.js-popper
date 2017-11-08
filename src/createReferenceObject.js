@@ -17,7 +17,7 @@ module.exports.getRef = function (target, userOptions) {
 
     //Define position function if none is provided 
     if (!(position)){
-        position = () => target.renderedPosition();
+        position = () => isNode ? target.renderedPosition() : target.midpoint();
     }
 
     //Override if a reference override is provided
