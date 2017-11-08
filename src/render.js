@@ -1,7 +1,7 @@
 //Include helper functions and Popper
 //import Popper from 'popper.js';
-const createBoundingBox = require('./createBoundingBox.js');
-const createReferenceObject = require('./createReferenceObject.js');
+const createBoundingBox = require('./createBoundingBox');
+const createReferenceObject = require('./createReferenceObject');
 
 //Fix Popper.js webpack import conflict (Use .default if using webpack)
 let Popper = require('popper.js');

@@ -1,4 +1,4 @@
-const createBoundingBox = require('./createBoundingBox.js');
+const createBoundingBox = require('./createBoundingBox');
 
 //Create a reference object for an element
 module.exports.getRef = function (cyElement, userOptions) {
