@@ -1,5 +1,5 @@
 //Get dependencies
-const impl = require('./core/index.js');
+const impl = require('core.js');
 
 // registers the extension on a cytoscape lib ref
 let register = function( cytoscape ){
