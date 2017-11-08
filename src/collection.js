@@ -1,11 +1,11 @@
 const popperRenderer = require('./render');
-const createReferenceObject = require('./createReferenceObject'); 
+const createReferenceObject = require('./createReferenceObject');
 
 //Create a popper object for first element in a collection
 module.exports.collection = function (userOptions) {
   var elements = this;
   var element = elements[0];
-  userOptions = popperRenderer.resolveUndefined(userOptions); 
+  userOptions = popperRenderer.resolveUndefined(userOptions);
 
   //Popper.js Should only be used on 1 element
   if (elements.length > 1) {
@@ -23,7 +23,7 @@ module.exports.collection = function (userOptions) {
 module.exports.collectionRef = function (userOptions) {
   var elements = this;
   var element = elements[0];
-  userOptions = popperRenderer.resolveUndefined(userOptions); 
+  userOptions = popperRenderer.resolveUndefined(userOptions);
 
   //Popper.js Should only be used on 1 element
   if (elements.length > 1) {

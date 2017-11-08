@@ -69,7 +69,7 @@ module.exports.getPopperHtmlObject = function (target, content) {
         contentObject = document.getElementById(content);
     }
     //Target option is an HTML element
-    else if (content instanceof HTMLElement){
+    else if (content instanceof HTMLElement) {
         return content;
     }
     else {

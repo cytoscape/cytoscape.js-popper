@@ -1,12 +1,12 @@
 const popperRenderer = require('./render');
-const createReferenceObject = require('./createReferenceObject'); 
+const createReferenceObject = require('./createReferenceObject');
 
 //Create a popper object (This is for use on the core)
 module.exports.core = function (userOptions) {
   //Get cytoscape object and container
   var cy = this;
 
-  userOptions = popperRenderer.resolveUndefined(userOptions); 
+  userOptions = popperRenderer.resolveUndefined(userOptions);
 
   //Create popper object
   var popper = popperRenderer.createPopperObject(cy, userOptions);
@@ -20,7 +20,7 @@ module.exports.coreRef = function (userOptions) {
   //Get cytoscape object and container
   var cy = this;
 
-  userOptions = popperRenderer.resolveUndefined(userOptions); 
+  userOptions = popperRenderer.resolveUndefined(userOptions);
 
   //Create popper object
   var popperRef = createReferenceObject.getRef(cy, userOptions);
