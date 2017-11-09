@@ -2,23 +2,15 @@ const createBoundingBox = require('./createBoundingBox');
 
 //Create a reference object for an element
 module.exports.getRef = function (target, userOptions) {
-    //Determine element properties to determine how to generate a reference object
-    var isCy = target.pan !== undefined && typeof target.pan === 'function';
-    var iscyElement = !isCy;
-    var isNode = iscyElement && target.isNode();
-    var cy = isCy ? target : target.cy();
+    //Determine element position
     var position = userOptions.position;
 
     //Get Dimensions for popper (Set Default to 3,3)
     var dim = createBoundingBox.getPopperObjectDimensions(target, userOptions);
 
-    //Define popper reference object
+    //Define popper reference object and cy reference  object
+    var cy = userOptions.cy;
     var refObject;
-
-    //Define position function if none is provided 
-    if (!(position)){
-        position = () => isNode ? target.renderedPosition() : target.midpoint();
-    }
 
     //Override if a reference override is provided
     if (userOptions.refObject) {

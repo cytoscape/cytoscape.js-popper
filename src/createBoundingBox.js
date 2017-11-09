@@ -7,24 +7,18 @@ module.exports.updatePopperObjectPosition = function (target) {
 
 //Return dimensions
 module.exports.getPopperObjectDimensions = function (target, userOptions) {
-    //Set Defaults
-    var width = target.width();
-    var height = target.height();
+   //Set Defaults to allow for dynamic updating
+   var width = target.width();
+   var height = target.height();
 
-    //Overide with the outer-dimensions if a bounding box is provided
-    if (userOptions.boundingBox) {
-        width = userOptions.boundingBox.w;
-        height = userOptions.boundingBox.h;
-    }
+   //Override if a bounding box is provided
+   if (userOptions.boundingBox) {
+       width = userOptions.boundingBox.w;
+       height = userOptions.boundingBox.h;
+   }
 
-    //Override defaults with 3 if popper is called on core
-    if(userOptions.core){
-        width = 3;
-        height = 3;
-    }
-
-    //Return a dimension object
-    return { w: width, h: height };
+   //Return a dimension object
+   return { w: width, h: height };
 };
 
 //Wrap given bounding Box to match popper.js bounding box

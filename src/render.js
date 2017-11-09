@@ -15,7 +15,7 @@ module.exports.createPopperObject = function (target, userOptions) {
   //Define popper reference object
   var refObject = createReferenceObject.getRef(target, userOptions);
 
-  //Get Values from scratchpad
+  //Get values from user options
   var popperOpts = userOptions.popper;
   popperOpts.placement = popperOpts.placement || 'bottom';
   var targetOpt = userOptions.target;
@@ -38,12 +38,3 @@ module.exports.createPopperObject = function (target, userOptions) {
 
 };
 
-//Resolve undefined errors 
-module.exports.resolveUndefined = function (userOptions) {
-  if (!userOptions) {
-    return {};
-  }
-  else {
-    return userOptions;
-  }
-}
