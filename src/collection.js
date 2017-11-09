@@ -1,6 +1,5 @@
 const popperRenderer = require('./render');
 const createReferenceObject = require('./createReferenceObject');
-const common = require('./common');
 
 //Create a popper object for first element in a collection
 module.exports.popper = function (userOptions) {
@@ -42,8 +41,25 @@ module.exports.popperRef = function (userOptions) {
 
 //Append element specific values to the options
 function appendValues(target, userOptions) {
-  userOptions = common.getTargetInfo(target, userOptions);
+  userOptions = getTargetInfo(target, userOptions);
   return userOptions;
 }
+
+//Assign position and cy to user options
+function getTargetInfo(target, userOptions) {
+  var isCy = target.pan !== undefined && typeof target.pan === 'function';
+  var iscyElement = !isCy;
+  var isNode = iscyElement && target.isNode();
+  var cy = isCy ? target : target.cy();
+
+  //Assign cy
+  userOptions.cy = cy;
+
+  //Append a position function
+  if (!(userOptions.position)) {
+    userOptions.position = () => isNode ? target.renderedPosition() : target.midpoint();
+  }
+  return userOptions;
+};
 
 

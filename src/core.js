@@ -1,37 +1,24 @@
 const popperRenderer = require('./render');
 const createReferenceObject = require('./createReferenceObject');
-const common = require('./common');
 
 //Create a popper object (This is for use on the core)
 module.exports.popper = function (userOptions) {
-  //Get cytoscape object and container
-  var cy = this;
-
-  userOptions = common.resolveUndefined(userOptions);
-  userOptions = appendValues(cy, userOptions);
-  userOptions.core = true;
-
-  //Create popper object
-  var popper = popperRenderer.createPopperObject(cy, userOptions);
-
-  return popper;
+  return popperRenderer.createPopperObject(this, appendValues(this, userOptions));
 };
 
 
 //Create a reference object (This is for use on the core)
 module.exports.popperRef = function (userOptions) {
-  //Get cytoscape object and container
-  var cy = this;
-
-  userOptions = common.resolveUndefined(userOptions);
-  userOptions = appendValues(cy, userOptions);
-  userOptions.core = true;
-  
-  //Create popper object
-  var popperRef = createReferenceObject.getRef(cy, userOptions);
-
-  return popperRef;
+  return createReferenceObject.getRef(this, appendValues(this, userOptions));
 };
+
+//Assign position and cy to user options
+function getTargetInfo (target, userOptions) {
+  userOptions.position = () => target.renderedPosition();
+  userOptions.cy = target; 
+  return userOptions;
+};
+
 
 
 //Append element specific values to the options
@@ -48,8 +35,8 @@ function appendValues(target, userOptions) {
     };
   }
 
-   //Append cy and a position function
-   userOptions = common.getTargetInfo(target, userOptions);
+  //Append cy and a position function
+  userOptions = getTargetInfo(target, userOptions);
 
   return userOptions;
 }
