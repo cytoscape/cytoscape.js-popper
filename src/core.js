@@ -1,5 +1,7 @@
 const popperRenderer = require('./render');
 const createReferenceObject = require('./createReferenceObject');
+const assign = require('./assign');
+
 
 //Create a popper object (This is for use on the core)
 module.exports.popper = function (userOptions) {
@@ -23,6 +25,8 @@ function getTargetInfo (target, userOptions) {
 
 //Append element specific values to the options
 function appendValues(target, userOptions) {
+  userOptions = userOptions ? assign(userOptions) : {};
+
   //Append bounding box functions
   if (!(userOptions.boundingBox)) {
     userOptions.boundingBox = {
