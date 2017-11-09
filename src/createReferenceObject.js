@@ -29,12 +29,12 @@ module.exports.getRef = function (target, userOptions) {
             },
             //Dynamically generate the dimension object for height and width
             get clientWidth() {
-                var newDim = createBoundingBox.getPopperObjectDimensions(this.cyElement, {});
+                var newDim = userOptions.dimensions(this.cyElement);
                 this.dim = newDim;
                 return newDim.w;
             },
             get clientHeight() {
-                var newDim = createBoundingBox.getPopperObjectDimensions(this.cyElement, {});
+                var newDim = userOptions.dimensions(this.cyElement);
                 this.dim = newDim;
                 return newDim.h;
             },
