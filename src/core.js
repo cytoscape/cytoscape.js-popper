@@ -3,7 +3,7 @@ const createReferenceObject = require('./createReferenceObject');
 const common = require('./common');
 
 //Create a popper object (This is for use on the core)
-module.exports.core = function (userOptions) {
+module.exports.popper = function (userOptions) {
   //Get cytoscape object and container
   var cy = this;
 
@@ -19,7 +19,7 @@ module.exports.core = function (userOptions) {
 
 
 //Create a reference object (This is for use on the core)
-module.exports.coreRef = function (userOptions) {
+module.exports.popperRef = function (userOptions) {
   //Get cytoscape object and container
   var cy = this;
 

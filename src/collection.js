@@ -3,7 +3,7 @@ const createReferenceObject = require('./createReferenceObject');
 const common = require('./common');
 
 //Create a popper object for first element in a collection
-module.exports.collection = function (userOptions) {
+module.exports.popper = function (userOptions) {
   var elements = this;
   var element = elements[0];
   userOptions = common.resolveUndefined(userOptions);
@@ -22,7 +22,7 @@ module.exports.collection = function (userOptions) {
 };
 
 //Create a reference object for a element in a collection
-module.exports.collectionRef = function (userOptions) {
+module.exports.popperRef = function (userOptions) {
   var elements = this;
   var element = elements[0];
   userOptions = common.resolveUndefined(userOptions);
