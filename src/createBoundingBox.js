@@ -5,22 +5,6 @@ module.exports.updatePopperObjectPosition = function (target) {
     return popper;
 };
 
-//Return dimensions
-module.exports.getPopperObjectDimensions = function (target, userOptions) {
-   //Set Defaults to allow for dynamic updating
-   var width = target.width();
-   var height = target.height();
-
-   //Override if a bounding box is provided
-   if (userOptions.boundingBox) {
-       width = userOptions.boundingBox.w;
-       height = userOptions.boundingBox.h;
-   }
-
-   //Return a dimension object
-   return { w: width, h: height };
-};
-
 //Wrap given bounding Box to match popper.js bounding box
 module.exports.getPopperBoundingBox = function (target, cy, getPosition, boundingBox) {
     var position = getPosition(target);

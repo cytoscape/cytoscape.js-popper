@@ -6,7 +6,7 @@ module.exports.getRef = function (target, userOptions) {
     var position = userOptions.position;
 
     //Get Dimensions for popper (Set Default to 3,3)
-    var dim = createBoundingBox.getPopperObjectDimensions(target, userOptions);
+    var dim = userOptions.dimensions(target);
 
     //Define popper reference object and cy reference  object
     var cy = userOptions.cy;

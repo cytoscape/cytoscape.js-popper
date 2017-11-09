@@ -18,6 +18,12 @@ module.exports.popperRef = function (userOptions) {
 //Append element specific values to the options
 function appendValues(target, userOptions) {
   userOptions = userOptions ? assign(userOptions) : {};
+
+  //Append dimensions function
+  if (!(userOptions.dimensions)) {
+    userOptions.dimensions = (target) => ({ w: target.width() , h: target.width()});
+  }
+
   userOptions = getTargetInfo(target, userOptions);
   return userOptions;
 }
@@ -30,7 +36,6 @@ function warn(elements) {
     console.warn("Ignoring all subsequent elements");
   }
 }
-
 
 //Assign position and cy to user options
 function getTargetInfo(target, userOptions) {
