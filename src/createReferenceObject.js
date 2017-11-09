@@ -6,7 +6,7 @@ module.exports.getRef = function (target, userOptions) {
     var position = userOptions.position;
 
     //Get Dimensions for popper (Set Default to 3,3)
-    var dim = userOptions.dimensions(target);
+    var dim = userOptions.getDimensions(target);
 
     //Define popper reference object and cy reference  object
     var cy = userOptions.cy;
@@ -29,12 +29,12 @@ module.exports.getRef = function (target, userOptions) {
             },
             //Dynamically generate the dimension object for height and width
             get clientWidth() {
-                var newDim = userOptions.dimensions(this.cyElement);
+                var newDim = userOptions.getDimensions(this.cyElement);
                 this.dim = newDim;
                 return newDim.w;
             },
             get clientHeight() {
-                var newDim = userOptions.dimensions(this.cyElement);
+                var newDim = userOptions.getDimensions(this.cyElement);
                 this.dim = newDim;
                 return newDim.h;
             },

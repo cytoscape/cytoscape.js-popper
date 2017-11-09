@@ -21,7 +21,7 @@ function appendValues(target, userOptions) {
 
   //Append dimensions function
   if (!(userOptions.dimensions)) {
-    userOptions.dimensions = (target) => ({ w: target.width() , h: target.width()});
+    userOptions.getDimensions = (target) => ({ w: target.width() , h: target.width()});
   }
 
   userOptions = getTargetInfo(target, userOptions);

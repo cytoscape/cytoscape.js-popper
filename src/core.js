@@ -41,7 +41,7 @@ function appendValues(target, userOptions) {
 
   //Append dimensions function
   if(!(userOptions.dimensions)){
-    userOptions.dimensions = () => ({w: 3, h: 3});
+    userOptions.getDimensions = () => ({w: 3, h: 3});
   }
 
   //Append cy and a position function
