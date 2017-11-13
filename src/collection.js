@@ -2,7 +2,7 @@ const popperRenderer = require('./render');
 const createReferenceObject = require('./createReferenceObject');
 const assign = require('./assign');
 
-//Create a popper object for first element in a collection
+//Create apopper object for first element in a collection
 module.exports.popper = function (userOptions) {
   warn(this);
   return popperRenderer.createPopperObject(this[0], appendValues(this[0], userOptions));
@@ -20,7 +20,7 @@ function appendValues(target, userOptions) {
   //Set Defaults
   let defaults = {
     getDimensions: (target) => ({ w: target.width(), h: target.width() }),
-    position: () => target.isNode() ? target.renderedPosition() : target.midpoint(),
+    position: (target) => target.isNode() ? target.renderedPosition() : getRenderedMidpoint(target),
     cy: target.cy()
   };
 
@@ -28,6 +28,18 @@ function appendValues(target, userOptions) {
   userOptions = assign( {}, defaults, userOptions );
 
   return userOptions;
+}
+
+//Get the rendered position of the midpoint
+function getRenderedMidpoint(target){
+  let p = target.midpoint();
+  let pan = target.pan();
+  let zoom = target.zoom();
+
+  return {
+    x: p.x * zoom + pan.x,
+    y: p.y * zoom + pan.y
+  };
 }
 
 //Warn user about misuse of the plugin

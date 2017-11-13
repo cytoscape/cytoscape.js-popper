@@ -2,7 +2,6 @@ const popperRenderer = require('./render');
 const createReferenceObject = require('./createReferenceObject');
 const assign = require('./assign');
 
-
 //Create a popper object (This is for use on the core)
 module.exports.popper = function (userOptions) {
   return popperRenderer.createPopperObject(this, appendValues(this, userOptions));
