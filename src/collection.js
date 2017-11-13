@@ -17,8 +17,6 @@ module.exports.popperRef = function (userOptions) {
 
 //Append element specific values to the options
 function appendValues(target, userOptions) {
-  userOptions = userOptions ? assign(userOptions) : {};
-
   //Set Defaults
   let defaults = {
     getDimensions: (target) => ({ w: target.width(), h: target.width() }),
