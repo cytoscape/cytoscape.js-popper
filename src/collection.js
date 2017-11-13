@@ -19,12 +19,16 @@ module.exports.popperRef = function (userOptions) {
 function appendValues(target, userOptions) {
   userOptions = userOptions ? assign(userOptions) : {};
 
-  //Append dimensions function
-  if (!(userOptions.dimensions)) {
-    userOptions.getDimensions = (target) => ({ w: target.width() , h: target.width()});
-  }
+  //Set Defaults
+  let defaults = {
+    getDimensions: (target) => ({ w: target.width(), h: target.width() }),
+    position: () => target.isNode() ? target.renderedPosition() : target.midpoint(),
+    cy: target.cy()
+  };
 
-  userOptions = getTargetInfo(target, userOptions);
+  //Create a user options object
+  userOptions = assign( {}, defaults, userOptions );
+
   return userOptions;
 }
 
@@ -37,21 +41,6 @@ function warn(elements) {
   }
 }
 
-//Assign position and cy to user options
-function getTargetInfo(target, userOptions) {
-  var isCy = target.pan !== undefined && typeof target.pan === 'function';
-  var iscyElement = !isCy;
-  var isNode = iscyElement && target.isNode();
-  var cy = isCy ? target : target.cy();
 
-  //Assign cy
-  userOptions.cy = cy;
-
-  //Append a position function
-  if (!(userOptions.position)) {
-    userOptions.position = () => isNode ? target.renderedPosition() : target.midpoint();
-  }
-  return userOptions;
-};
 
 

@@ -14,38 +14,26 @@ module.exports.popperRef = function (userOptions) {
   return createReferenceObject.getRef(this, appendValues(this, userOptions));
 };
 
-//Assign position and cy to user options
-function getTargetInfo (target, userOptions) {
-  userOptions.position = () => target.renderedPosition();
-  userOptions.cy = target; 
-  return userOptions;
-};
-
-
-
 //Append element specific values to the options
 function appendValues(target, userOptions) {
-  userOptions = userOptions ? assign(userOptions) : {};
-
-  //Append bounding box functions
-  if (!(userOptions.boundingBox)) {
-    userOptions.boundingBox = {
+  
+  //Set Defaults 
+  let defaults = {
+    boundingBox : {
       top: 0,
       left: 0,
       right: 0,
       bottom: 0,
       w: 3,
       h: 3,
-    };
-  }
+    },
+    getDimensions : () => ({w: 3, h: 3}),
+    position : () => target.renderedPosition(),
+    cy : target
+  };
 
-  //Append dimensions function
-  if(!(userOptions.dimensions)){
-    userOptions.getDimensions = () => ({w: 3, h: 3});
-  }
-
-  //Append cy and a position function
-  userOptions = getTargetInfo(target, userOptions);
+  //Create a user options object
+  userOptions = assign( {}, defaults, userOptions );
 
   return userOptions;
 }
