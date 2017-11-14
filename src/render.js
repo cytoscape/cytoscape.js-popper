@@ -18,7 +18,7 @@ module.exports.createPopperObject = function (target, userOptions) {
   //Get values from user options
   let popperOpts = userOptions.popper;
   popperOpts.placement = popperOpts.placement || 'bottom';
-  let targetOpt = userOptions.target;
+  let targetOpt = userOptions.content;
   let content = null;
 
   //Get target to bind popper to

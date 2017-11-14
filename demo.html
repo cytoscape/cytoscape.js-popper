@@ -258,7 +258,7 @@
 
 			//Create Basic Popper
 			popperTest = cy.nodes()[0].popper({
-				target: "popper-j",
+				content: "popper-j",
 				popper: {
 					placement: "bottom"
 				},
@@ -271,7 +271,7 @@
 
 			//Bind Popper with Custom Bounding Box
 			popperTest2 = cy.popper({
-				target: "core-popper",
+				content: "core-popper",
 				popper: {
 					placement: "bottom"
 				},
@@ -289,7 +289,7 @@
 
 			//Bind Popper with Custom Bounding Box
 			popperTest3 = cy.nodes()[0].popper({
-				target: "core-popper-ref",
+				content: "core-popper-ref",
 				refObject: refObject,
 				popper: {
 					placement: "bottom"
@@ -306,9 +306,9 @@
 				}
 			});
 
-			//Bind Popper with HTML Element as a target
+			//Bind Popper with HTML Element as a content
 			popperTest4 = cy.nodes()[3].popper({
-				target: document.getElementById("html-element-test"),
+				content: document.getElementById("html-element-test"),
 				popper: {
 					placement: "bottom"
 				}
@@ -319,7 +319,7 @@
 			});
 
 			popperTest5 = cy.edges()[0].popper({
-				target: 'popper-e'
+				content: 'popper-e'
 			});
 
 			//Log Reference Objects
