@@ -7,23 +7,27 @@ module.exports.updatePopperObjectPosition = function (target) {
 
 //Wrap given bounding Box to match popper.js bounding box
 module.exports.getPopperBoundingBox = function (target, userOptions) {
-    var position = userOptions.position(target);
-    var cyOffset = userOptions.cy.container().getBoundingClientRect();
-    var boundingBox = userOptions.boundingBox; 
+
+    let {position, cy, getDimensions} = userOptions;
+    let cyOffset = cy.container().getBoundingClientRect();
+    let dimensions = getDimensions(target);
+    let renderedPosition = position(target);
+    let scrollY = window.pageYOffset;
+    let scrollX = window.pageXOffset;
    
     //Exit if position is invalid
-    if (!position || position.x == null || isNaN(position.x)) {
+    if (!renderedPosition || renderedPosition.x == null || isNaN(renderedPosition.x)) {
         return;
     }
 
     //Return the bounding  box
     return {
-        top: position.y + cyOffset.top + window.pageYOffset,
-        left: position.x + cyOffset.left + window.pageXOffset,
-        right: position.x + boundingBox.w + cyOffset.left + window.pageXOffset,
-        bottom: position.y + boundingBox.h + cyOffset.top + window.pageYOffset,
-        width: boundingBox.w,
-        height: boundingBox.h,
+        top: renderedPosition.y + cyOffset.top + scrollY,
+        left: renderedPosition.x + cyOffset.left + scrollX,
+        right: renderedPosition.x + dimensions.w + cyOffset.left + scrollX,
+        bottom: renderedPosition.y + dimensions.h + cyOffset.top + scrollY,
+        width: dimensions.w,
+        height: dimensions.h,
     };
 };
 
