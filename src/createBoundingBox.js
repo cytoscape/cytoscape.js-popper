@@ -6,10 +6,11 @@ module.exports.updatePopperObjectPosition = function (target) {
 };
 
 //Wrap given bounding Box to match popper.js bounding box
-module.exports.getPopperBoundingBox = function (target, cy, getPosition, boundingBox) {
-    var position = getPosition(target);
-    var cyOffset = cy.container().getBoundingClientRect();
-
+module.exports.getPopperBoundingBox = function (target, userOptions) {
+    var position = userOptions.position(target);
+    var cyOffset = userOptions.cy.container().getBoundingClientRect();
+    var boundingBox = userOptions.boundingBox; 
+   
     //Exit if position is invalid
     if (!position || position.x == null || isNaN(position.x)) {
         return;

@@ -25,7 +25,8 @@ module.exports.getRef = function (target, userOptions) {
 
             //Define the bounding box for the popper target
             getBoundingClientRect: userOptions.boundingBox ? userOptions.boundingBox : function () {
-                return createBoundingBox.getPopperBoundingBox(target, cy, position, this.dim, userOptions.boundingBox);
+                userOptions.boundingBox = this.dim; 
+                return createBoundingBox.getPopperBoundingBox(target, userOptions);
             },
             //Dynamically generate the dimension object for height and width
             get clientWidth() {
