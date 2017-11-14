@@ -57,8 +57,9 @@ Plain HTML/JS has the extension registered for you automatically, because no `re
 
 #### Popper Basic Usage 
 ``` js
+let cyNode = cy.nodes()[0];
 //Create Basic Popper
-let popperTest = cy.nodes()[0].popper({
+let popperTest = cyNode.popper({
   target: "targetID",
   popper: popperOptions,
   boundingBox : boundingBoxFunction
@@ -71,7 +72,7 @@ let popperTest = cy.nodes()[0].popper({
 
 #### Popper Ref Basic Usage
 ``` js 
-cy.elements().nodes()[0].popperRef(options)
+cyNode.popperRef(options)
 ```
 
 * Returns a Reference Object
@@ -79,7 +80,7 @@ cy.elements().nodes()[0].popperRef(options)
 
 #### Basic Binding (Sticky Tooltips)
 ```js
-cy.elements().nodes()[0].on('drag', function () {
+cyNode.on('drag', function () {
    popperTest.scheduleUpdate();
 });
 ```
@@ -105,14 +106,16 @@ let popperTest2 = cy.popper({
 });
 ```
 
-#### Overriding The Entire Reference Object
+#### Defining Custom Popper Options
 ```js
-//Bind Popper with Custom Bounding Box
+//Example of defining custom popper options
 let popperTest3 = cy.nodes()[0].popper({
   target: "core-popper-ref",
   refObject : refObject,
     popper: {
-       placement: "bottom"
+       placement: "bottom",
+       eventsEnabled: true,
+       removeOnDestroy: true
     }
  });
 ```
