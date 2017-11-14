@@ -60,13 +60,13 @@ Plain HTML/JS has the extension registered for you automatically, because no `re
 let cyNode = cy.nodes()[0];
 //Create Basic Popper
 let popperTest = cyNode.popper({
-  target: "targetID",
+  content: "targetID",
   popper: popperOptions,
   boundingBox : boundingBoxFunction
 });
 ```
 * Returns a Popper Object  
-* (Required) (String, Function, or HTML Element) Target : Refers to the actual HTML content of your popper. 
+* (Required) (String, Function, or HTML Element) content : Refers to the actual HTML content of your popper. 
 * (Required) Options : Refer to [Popper.js](http://popper.js.org) for more information on popper options
 * (Optional) BoundingBox : Provides ability to manually set a bounding box
 
@@ -89,7 +89,7 @@ cyNode.on('drag', function () {
 ```js
 //Bind Popper with Custom Bounding Box
 let popperTest2 = cy.popper({
-   target: "core-popper",
+   content: "core-popper",
    popper: {
      placement: "bottom"
    },
@@ -109,8 +109,8 @@ let popperTest2 = cy.popper({
 #### Defining Custom Popper Options
 ```js
 //Example of defining custom popper options
-let popperTest3 = cy.nodes()[0].popper({
-  target: "core-popper-ref",
+let popperTest3 = cyNode.popper({
+  content: "core-popper-ref",
   refObject : refObject,
     popper: {
        placement: "bottom",
@@ -125,7 +125,7 @@ If you wish you may also provide a custom position by providing a function which
 
 ```
 userOptions = {
-  target : ...,
+  content : ...,
   popper : ...,
   boundingBox : ...,
   position : positionFunc
