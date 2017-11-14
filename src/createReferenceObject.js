@@ -3,7 +3,7 @@ const createBoundingBox = require('./createBoundingBox');
 //Create a reference object for an element
 module.exports.getRef = function (target, userOptions) {
     //Get Dimensions for popper (Set Default to 3,3)
-    var dim = userOptions.getDimensions(target);
+    let dim = userOptions.getDimensions(target);
 
     //Define popper reference object and cy reference  object
     let refObject = {
@@ -17,11 +17,11 @@ module.exports.getRef = function (target, userOptions) {
         },
         //Dynamically generate the dimension object for height and width
         get clientWidth() {
-            var newDim = userOptions.getDimensions(this.cyElement);
+            let newDim = userOptions.getDimensions(this.cyElement);
             return newDim.w;
         },
         get clientHeight() {
-            var newDim = userOptions.getDimensions(this.cyElement);
+            let newDim = userOptions.getDimensions(this.cyElement);
             return newDim.h;
         },
     };

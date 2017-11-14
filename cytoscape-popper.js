@@ -10,7 +10,7 @@
 })(this, function(__WEBPACK_EXTERNAL_MODULE_5__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
-/******/ 	var installedModules = {};
+/******/ 	let installedModules = {};
 /******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
@@ -20,7 +20,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 			return installedModules[moduleId].exports;
 /******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = installedModules[moduleId] = {
+/******/ 		let module = installedModules[moduleId] = {
 /******/ 			i: moduleId,
 /******/ 			l: false,
 /******/ 			exports: {}
@@ -59,7 +59,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/ 	// getDefaultExport function for compatibility with non-harmony modules
 /******/ 	__webpack_require__.n = function(module) {
-/******/ 		var getter = module && module.__esModule ?
+/******/ 		let getter = module && module.__esModule ?
 /******/ 			function getDefault() { return module['default']; } :
 /******/ 			function getModuleExports() { return module; };
 /******/ 		__webpack_require__.d(getter, 'a', getter);
@@ -85,7 +85,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 //Update popper position
 module.exports.updatePopperObjectPosition = function (cyElement) {
-    var popper = cyElement.scratch('popper');
+    let popper = cyElement.scratch('popper');
     popper.scheduleUpdate();
     return popper;
 };
@@ -93,8 +93,8 @@ module.exports.updatePopperObjectPosition = function (cyElement) {
 //Return dimensions
 module.exports.getPopperObjectDimensions = function (cyElement, userOptions) {
     //Set Defaults
-    var width = cyElement.width();
-    var height = cyElement.height();
+    let width = cyElement.width();
+    let height = cyElement.height();
 
     //Overide with the outer-dimensions if a bounding box is provided
     if (userOptions.boundingBox) {
@@ -108,7 +108,7 @@ module.exports.getPopperObjectDimensions = function (cyElement, userOptions) {
 
 //Wrap given bounding Box to match popper.js bounding box
 module.exports.getPopperBoundingBox = function (cyElement, cy, isNode, dim, boundingBox) {
-    var position;
+    let position;
 
     //Create a bounding box if one isn't provided
 
@@ -118,7 +118,7 @@ module.exports.getPopperBoundingBox = function (cyElement, cy, isNode, dim, boun
         position = cyElement.midpoint();
     }
 
-    var cyOffset = cy.container().getBoundingClientRect();
+    let cyOffset = cy.container().getBoundingClientRect();
 
     //Exit if position is invalid
     if (!position || position.x == null || isNaN(position.x)) {
@@ -138,7 +138,7 @@ module.exports.getPopperBoundingBox = function (cyElement, cy, isNode, dim, boun
 
 //Return Popper Target (The element to bind popper to)
 module.exports.getPopperHtmlObject = function (cyElement, targetOpt) {
-    var target = null;
+    let target = null;
 
     //If target option is invalid, return error
     if (!targetOpt) {
@@ -174,21 +174,21 @@ module.exports.getPopperHtmlObject = function (cyElement, targetOpt) {
 "use strict";
 
 
-var createBoundingBox = __webpack_require__(0);
+let createBoundingBox = __webpack_require__(0);
 
 //Create a reference object for an element
 module.exports.getRef = function (cyElement, userOptions) {
     //Determine element properties to determine how to generate a reference object
-    var isCy = cyElement.pan !== undefined && typeof cyElement.pan === 'function';
-    var iscyElement = !isCy;
-    var isNode = iscyElement && cyElement.isNode();
-    var cy = isCy ? cyElement : cyElement.cy();
+    let isCy = cyElement.pan !== undefined && typeof cyElement.pan === 'function';
+    let iscyElement = !isCy;
+    let isNode = iscyElement && cyElement.isNode();
+    let cy = isCy ? cyElement : cyElement.cy();
 
     //Get Dimensions for popper (Set Default to 3,3)
-    var dim = createBoundingBox.getPopperObjectDimensions(cyElement, userOptions);
+    let dim = createBoundingBox.getPopperObjectDimensions(cyElement, userOptions);
 
     //Define popper reference object
-    var refObject;
+    let refObject;
 
     //Override if a reference override is provided
     if (userOptions.refObject) {
@@ -206,12 +206,12 @@ module.exports.getRef = function (cyElement, userOptions) {
             },
             //Dynamically generate the dimension object for height and width
             get clientWidth() {
-                var newDim = createBoundingBox.getPopperObjectDimensions(this.cyElement, {});
+                let newDim = createBoundingBox.getPopperObjectDimensions(this.cyElement, {});
                 this.dim = newDim;
                 return newDim.w;
             },
             get clientHeight() {
-                var newDim = createBoundingBox.getPopperObjectDimensions(this.cyElement, {});
+                let newDim = createBoundingBox.getPopperObjectDimensions(this.cyElement, {});
                 this.dim = newDim;
                 return newDim.h;
             }
@@ -228,26 +228,26 @@ module.exports.getRef = function (cyElement, userOptions) {
 "use strict";
 
 
-var popperRenderer = __webpack_require__(3);
-var createReferenceObject = __webpack_require__(1);
+let popperRenderer = __webpack_require__(3);
+let createReferenceObject = __webpack_require__(1);
 
 //Create a popper object (This is for use on the core)
 module.exports.core = function (userOptions) {
   //Get cytoscape object and container
-  var cy = this;
+  let cy = this;
 
   userOptions = resolveUndefined(userOptions);
 
   //Create popper object
-  var popper = popperRenderer.createPopperObject(cy, userOptions);
+  let popper = popperRenderer.createPopperObject(cy, userOptions);
 
   return popper;
 };
 
 //Create a popper object for first element in a collection
 module.exports.collection = function (userOptions) {
-  var elements = this;
-  var element = elements[0];
+  let elements = this;
+  let element = elements[0];
   userOptions = resolveUndefined(userOptions);
 
   //Popper.js Should only be used on 1 element
@@ -257,7 +257,7 @@ module.exports.collection = function (userOptions) {
   }
 
   //Create popper object
-  var popper = popperRenderer.createPopperObject(element, userOptions);
+  let popper = popperRenderer.createPopperObject(element, userOptions);
 
   return popper; // chainability
 };
@@ -265,20 +265,20 @@ module.exports.collection = function (userOptions) {
 //Create a reference object (This is for use on the core)
 module.exports.coreRef = function (userOptions) {
   //Get cytoscape object and container
-  var cy = this;
+  let cy = this;
 
   userOptions = resolveUndefined(userOptions);
 
   //Create popper object
-  var popperRef = createReferenceObject.getRef(cy, userOptions);
+  let popperRef = createReferenceObject.getRef(cy, userOptions);
 
   return popperRef;
 };
 
 //Create a reference object for a element in a collection
 module.exports.collectionRef = function (userOptions) {
-  var elements = this;
-  var element = elements[0];
+  let elements = this;
+  let element = elements[0];
   userOptions = resolveUndefined(userOptions);
 
   //Popper.js Should only be used on 1 element
@@ -288,7 +288,7 @@ module.exports.collectionRef = function (userOptions) {
   }
 
   //Create a reference object
-  var popperRef = createReferenceObject.getRef(element, userOptions);
+  let popperRef = createReferenceObject.getRef(element, userOptions);
 
   return popperRef; // chainability
 };
@@ -311,12 +311,12 @@ function resolveUndefined(userOptions) {
 
 //Include helper functions and Popper
 //import Popper from 'popper.js';
-var createBoundingBox = __webpack_require__(0);
-var createReferenceObject = __webpack_require__(1);
+let createBoundingBox = __webpack_require__(0);
+let createReferenceObject = __webpack_require__(1);
 
 //Fix Popper.js webpack import conflict (Use .default if using webpack)
-var Popper = __webpack_require__(5);
-var EsmWebpackPopper = Popper.default;
+let Popper = __webpack_require__(5);
+let EsmWebpackPopper = Popper.default;
 if (EsmWebpackPopper != null && EsmWebpackPopper.Defaults != null) {
     Popper = Popper.default;
 }
@@ -324,13 +324,13 @@ if (EsmWebpackPopper != null && EsmWebpackPopper.Defaults != null) {
 //Create a new popper object associated with a cytoscape element (Nodes or Edges)
 module.exports.createPopperObject = function (cyElement, userOptions) {
     //Define popper reference object
-    var refObject = createReferenceObject.getRef(cyElement, userOptions);
+    let refObject = createReferenceObject.getRef(cyElement, userOptions);
 
     //Get Values from scratchpad
-    var popperOpts = userOptions.popper;
+    let popperOpts = userOptions.popper;
     popperOpts.placement = popperOpts.placement || 'bottom';
-    var targetOpt = userOptions.target;
-    var target = null;
+    let targetOpt = userOptions.target;
+    let target = null;
 
     //Get target to bind popper to
     try {
@@ -341,7 +341,7 @@ module.exports.createPopperObject = function (cyElement, userOptions) {
     }
 
     //Create and return actual popper object
-    var popper = new Popper(refObject, target, popperOpts);
+    let popper = new Popper(refObject, target, popperOpts);
 
     return popper;
 };
@@ -354,10 +354,10 @@ module.exports.createPopperObject = function (cyElement, userOptions) {
 
 
 //Get dependencies
-var impl = __webpack_require__(2);
+let impl = __webpack_require__(2);
 
 // registers the extension on a cytoscape lib ref
-var register = function register(cytoscape) {
+let register = function register(cytoscape) {
   if (!cytoscape) {
     return;
   } // can't register if cytoscape unspecified

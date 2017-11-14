@@ -190,11 +190,11 @@
 
 	<script>
 		//Test Popper
-		var popperTest, popperTest2, popperTest3, popperTest4;
+		let popperTest, popperTest2, popperTest3, popperTest4;
 
 		document.addEventListener('DOMContentLoaded', function () {
 
-			var cy = window.cy = cytoscape({
+			let cy = window.cy = cytoscape({
 				container: document.getElementById('cy'),
 
 				style: [
@@ -236,7 +236,7 @@
 			});
 
 			//Sample Reference Object
-			var refObject = {
+			let refObject = {
 				getBoundingClientRect: function (data) {
 					return {
 						top: 5 + window.pageYOffset,

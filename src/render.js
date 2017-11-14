@@ -13,13 +13,13 @@ if (EsmWebpackPopper != null && EsmWebpackPopper.Defaults != null) {
 //Create a new popper object associated with a cytoscape element (Nodes or Edges)
 module.exports.createPopperObject = function (target, userOptions) {
   //Define popper reference object
-  var refObject = createReferenceObject.getRef(target, userOptions);
+  let refObject = createReferenceObject.getRef(target, userOptions);
 
   //Get values from user options
-  var popperOpts = userOptions.popper;
+  let popperOpts = userOptions.popper;
   popperOpts.placement = popperOpts.placement || 'bottom';
-  var targetOpt = userOptions.target;
-  var content = null;
+  let targetOpt = userOptions.target;
+  let content = null;
 
   //Get target to bind popper to
   try {
@@ -31,7 +31,7 @@ module.exports.createPopperObject = function (target, userOptions) {
   }
 
   //Create and return actual popper object
-  var popper = new Popper(refObject, content, popperOpts);
+  let popper = new Popper(refObject, content, popperOpts);
 
   return popper;
 

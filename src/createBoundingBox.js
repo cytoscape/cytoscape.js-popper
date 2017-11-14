@@ -1,6 +1,6 @@
 //Update popper position
 module.exports.updatePopperObjectPosition = function (target) {
-    var popper = target.scratch('popper');
+    let popper = target.scratch('popper');
     popper.scheduleUpdate();
     return popper;
 };
@@ -33,7 +33,7 @@ module.exports.getPopperBoundingBox = function (target, userOptions) {
 
 //Return Popper Target (The element to bind popper to)
 module.exports.getPopperHtmlObject = function (target, content) {
-    var contentObject = null;
+    let contentObject = null;
 
     //If target option is invalid, return error
     if (!(content)) {
