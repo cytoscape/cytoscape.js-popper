@@ -190,7 +190,7 @@
 
 	<script>
 		//Test Popper
-		let popperTest, popperTest2, popperTest3, popperTest4;
+		let popperTest, popperTest2, popperTest3, popperTest4, popperTest5;
 
 		document.addEventListener('DOMContentLoaded', function () {
 
@@ -318,6 +318,10 @@
 				popperTest4.scheduleUpdate();
 			});
 
+			popperTest5 = cy.edges()[0].popper({
+				target: 'popper-e'
+			});
+
 			//Log Reference Objects
 			console.log(cy.elements().nodes()[0].popperRef());
 			console.log(cy.elements().nodes()[1].popperRef());
@@ -330,6 +334,7 @@
 	<h1>cytoscape-popper demo</h1>
 	<div id="cy"></div>
 	<div class="popper" id="popper-j">Drag Me</div>
+	<div class="popper" id="popper-e">This is an edge!</div>
 	<div class="popper" id="core-popper">Core-Custom-Bounding-Box</div>
 	<div class="popper" id="core-popper-ref">Core-Custom-Reference-Object</div>
 	<div class="popper" id="html-element-test">Html Element Test</div>
