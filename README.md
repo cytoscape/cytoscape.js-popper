@@ -57,21 +57,22 @@ Plain HTML/JS has the extension registered for you automatically, because no `re
 
 #### Popper Basic Usage 
 ``` js
+let cyNode = cy.nodes()[0];
 //Create Basic Popper
-var popperTest = cy.nodes()[0].popper({
-  target: "targetID",
+let popperTest = cyNode.popper({
+  content: "targetID",
   popper: popperOptions,
   boundingBox : boundingBoxFunction
 });
 ```
 * Returns a Popper Object  
-* (Required) (String, Function, or HTML Element) Target : Refers to the actual HTML content of your popper. 
+* (Required) (String, Function, or HTML Element) content : Refers to the actual HTML content of your popper. 
 * (Required) Options : Refer to [Popper.js](http://popper.js.org) for more information on popper options
 * (Optional) BoundingBox : Provides ability to manually set a bounding box
 
 #### Popper Ref Basic Usage
 ``` js 
-cy.elements().nodes()[0].popperRef(options)
+cyNode.popperRef(options)
 ```
 
 * Returns a Reference Object
@@ -79,7 +80,7 @@ cy.elements().nodes()[0].popperRef(options)
 
 #### Basic Binding (Sticky Tooltips)
 ```js
-cy.elements().nodes()[0].on('drag', function () {
+cyNode.on('drag', function () {
    popperTest.scheduleUpdate();
 });
 ```
@@ -87,8 +88,8 @@ cy.elements().nodes()[0].on('drag', function () {
 #### Popper With Custom Bounding Box
 ```js
 //Bind Popper with Custom Bounding Box
-var popperTest2 = cy.popper({
-   target: "core-popper",
+let popperTest2 = cy.popper({
+   content: "core-popper",
    popper: {
      placement: "bottom"
    },
@@ -105,16 +106,30 @@ var popperTest2 = cy.popper({
 });
 ```
 
-#### Overriding The Entire Reference Object
+#### Defining Custom Popper Options
 ```js
-//Bind Popper with Custom Bounding Box
-var popperTest3 = cy.nodes()[0].popper({
-  target: "core-popper-ref",
+//Example of defining custom popper options
+let popperTest3 = cyNode.popper({
+  content: "core-popper-ref",
   refObject : refObject,
     popper: {
-       placement: "bottom"
+       placement: "bottom",
+       eventsEnabled: true,
+       removeOnDestroy: true
     }
  });
+```
+
+### Providing a custom position for nodes
+If you wish you may also provide a custom position by providing a function which returns a position object; 
+
+```
+userOptions = {
+  content : ...,
+  popper : ...,
+  boundingBox : ...,
+  position : positionFunc
+}
 ```
 
 ## Build targets

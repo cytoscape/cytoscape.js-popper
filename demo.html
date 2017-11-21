@@ -190,11 +190,11 @@
 
 	<script>
 		//Test Popper
-		var popperTest, popperTest2, popperTest3, popperTest4;
+		let popperTest, popperTest2, popperTest3, popperTest4, popperTest5;
 
 		document.addEventListener('DOMContentLoaded', function () {
 
-			var cy = window.cy = cytoscape({
+			let cy = window.cy = cytoscape({
 				container: document.getElementById('cy'),
 
 				style: [
@@ -236,7 +236,7 @@
 			});
 
 			//Sample Reference Object
-			var refObject = {
+			let refObject = {
 				getBoundingClientRect: function (data) {
 					return {
 						top: 5 + window.pageYOffset,
@@ -258,7 +258,7 @@
 
 			//Create Basic Popper
 			popperTest = cy.nodes()[0].popper({
-				target: "popper-j",
+				content: "popper-j",
 				popper: {
 					placement: "bottom"
 				},
@@ -268,10 +268,13 @@
 			cy.elements().nodes()[0].on('drag', function () {
 				popperTest.scheduleUpdate();
 			});
+			cy.elements().nodes()[0].on('zoom', function () {
+				popperTest.scheduleUpdate();
+			});
 
 			//Bind Popper with Custom Bounding Box
 			popperTest2 = cy.popper({
-				target: "core-popper",
+				content: "core-popper",
 				popper: {
 					placement: "bottom"
 				},
@@ -289,7 +292,7 @@
 
 			//Bind Popper with Custom Bounding Box
 			popperTest3 = cy.nodes()[0].popper({
-				target: "core-popper-ref",
+				content: "core-popper-ref",
 				refObject: refObject,
 				popper: {
 					placement: "bottom"
@@ -306,9 +309,9 @@
 				}
 			});
 
-			//Bind Popper with HTML Element as a target
+			//Bind Popper with HTML Element as a content
 			popperTest4 = cy.nodes()[3].popper({
-				target: document.getElementById("html-element-test"),
+				content: document.getElementById("html-element-test"),
 				popper: {
 					placement: "bottom"
 				}
@@ -316,6 +319,10 @@
 
 			cy.elements().nodes()[3].on('drag', function () {
 				popperTest4.scheduleUpdate();
+			});
+
+			popperTest5 = cy.edges()[0].popper({
+				content: 'popper-e'
 			});
 
 			//Log Reference Objects
@@ -330,6 +337,7 @@
 	<h1>cytoscape-popper demo</h1>
 	<div id="cy"></div>
 	<div class="popper" id="popper-j">Drag Me</div>
+	<div class="popper" id="popper-e">This is an edge!</div>
 	<div class="popper" id="core-popper">Core-Custom-Bounding-Box</div>
 	<div class="popper" id="core-popper-ref">Core-Custom-Reference-Object</div>
 	<div class="popper" id="html-element-test">Html Element Test</div>
