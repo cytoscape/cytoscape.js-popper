@@ -19,8 +19,8 @@ module.exports.popperRef = function (userOptions) {
 function createOptionsObject(target, userOptions) {
   //Set Defaults
   let defaults = {
-    getDimensions: (target) => ({ w: target.width(), h: target.width() }),
-    position: (target) => target.isNode() ? target.renderedPosition() : getRenderedMidpoint(target),
+    getDimensions: (target) => ({ w: target.renderedWidth(), h: target.renderedHeight() }),
+    position: (target) => target.isNode() ? getRenderedCenter(target) : getRenderedMidpoint(target),
     popper : {},
     cy: target.cy()
   };
@@ -29,6 +29,18 @@ function createOptionsObject(target, userOptions) {
   userOptions = assign( {}, defaults, userOptions );
 
   return userOptions;
+}
+
+//Get the rendered center 
+function getRenderedCenter(target){
+  let pos = target.renderedPosition();
+  let offsetX = target.renderedWidth() / 2;
+  let offsetY = target.renderedHeight() / 2;
+
+  return {
+    x : (pos.x - offsetX),
+    y : (pos.y - offsetY)
+  };
 }
 
 //Get the rendered position of the midpoint
