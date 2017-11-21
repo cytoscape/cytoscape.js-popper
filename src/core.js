@@ -27,7 +27,7 @@ function createOptionsObject(target, userOptions) {
       h: 3,
     },
     getDimensions : () => ({w: 3, h: 3}),
-    position : () => target.renderedPosition(),
+    position : () => ({x : 0, y : 0}),
     popper : {},
     cy : target
   };
