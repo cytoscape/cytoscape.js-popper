@@ -15,9 +15,9 @@ module.exports.getPopperBoundingBox = function (target, userOptions) {
     let scrollY = window.pageYOffset;
     let scrollX = window.pageXOffset;
    
-    //Exit if position is invalid
+    //Throw error if position is invalid
     if (!renderedPosition || renderedPosition.x == null || isNaN(renderedPosition.x)) {
-        return;
+        throw new Error('Error : Invalid Position');
     }
 
     //Return the bounding  box
@@ -37,7 +37,7 @@ module.exports.getPopperHtmlObject = function (target, content) {
 
     //If target option is invalid, return error
     if (!(content)) {
-        throw new Error("Error : NULL Target");
+        throw new Error('Error : NULL Target');
     }
     //Execute function if user opted for a dyanamic target
     else if (typeof content === 'function') {
@@ -52,12 +52,12 @@ module.exports.getPopperHtmlObject = function (target, content) {
         return content;
     }
     else {
-        throw new Error("Error : Target Does Not Exist");
+        throw new Error('Error : Target Does Not Exist');
     }
 
     //Check validity of parsed target
     if (contentObject === null) {
-        throw new Error("Error : Target Could Not Be Found");
+        throw new Error('Error : Target Could Not Be Found');
     } else {
         return contentObject;
     }
