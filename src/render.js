@@ -22,13 +22,7 @@ module.exports.createPopperObject = function (target, userOptions) {
   let content = null;
 
   //Get target to bind popper to
-  try {
-    content = createBoundingBox.getPopperHtmlObject(target, targetOpt);
-  }
-  catch (e) {
-    //Stop creating a popper
-    return;
-  }
+  content = createBoundingBox.getPopperHtmlObject(target, targetOpt);
 
   //Create and return actual popper object
   let popper = new Popper(refObject, content, popperOpts);
