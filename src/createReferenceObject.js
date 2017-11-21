@@ -5,10 +5,10 @@ module.exports.getRef = function (target, userOptions) {
     //Define popper reference object and cy reference  object
     let refObject = {
 
-        //Store copies of dimensions and cyElement objects
+        // Store copies of dimensions and cyElement objects
         cyElement: target,
 
-        //Define the bounding box for the popper target
+        // Define the bounding box for the popper target
         getBoundingClientRect: userOptions.boundingBox ? userOptions.boundingBox : function () {
             return createBoundingBox.getPopperBoundingBox(target, userOptions);
         },
