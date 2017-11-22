@@ -20,7 +20,7 @@ function createOptionsObject(target, userOptions) {
   //Set Defaults
   let defaults = {
     getDimensions: (target) => ({ w: target.renderedWidth(), h: target.renderedHeight() }),
-    position: (target) => target.isNode() ? getRenderedCenter(target) : getRenderedMidpoint(target),
+    position: (target) => target.isNode() ? getRenderedCenter(target, defaults.getDimensions) : getRenderedMidpoint(target),
     popper : {},
     cy: target.cy()
   };
@@ -31,11 +31,12 @@ function createOptionsObject(target, userOptions) {
   return userOptions;
 }
 
-//Get the rendered center 
-function getRenderedCenter(target){
+//Get the rendered center
+function getRenderedCenter(target, getDimensions){
   let pos = target.renderedPosition();
-  let offsetX = target.renderedWidth() / 2;
-  let offsetY = target.renderedHeight() / 2;
+  let dimensions = getDimensions(target);
+  let offsetX = dimensions.w / 2;
+  let offsetY = dimensions.h / 2;
 
   return {
     x : (pos.x - offsetX),
