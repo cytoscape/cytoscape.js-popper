@@ -140,7 +140,7 @@ Cytoscape popper can also be used to enable Tippy.js functionality with Cytoscap
 //Create Tippy.js tooltip using popper.js
   let tippyReference = cyNode.popperRef();
   let tippyOptions = {html: '#tippy-popper-test', trigger: 'manual', hideOnClick: false, arrow: false };
-	tippyTest = tippy(tippyReference, tippyOptions); 
+  tippyTest = tippy(tippyReference, tippyOptions); 
 ```
 
 * Refer to [Tippy.js](https://atomiks.github.io/tippyjs/) for more details on `tippyOptions`
