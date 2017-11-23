@@ -145,7 +145,7 @@ Cytoscape popper can also be used to enable Tippy.js functionality with Cytoscap
 
 * Refer to [Tippy.js](https://atomiks.github.io/tippyjs/) for more details on `tippyOptions`
 
-#### Binding to Tippy Object
+#### Binding to the Tippy Object
 ```js
 cyNode.on('tap', function () { 
   let tippyPopper = tippyTest.getPopperElement(tippyTest.selector) 
