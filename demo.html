@@ -13,11 +13,20 @@
 
 	<script src="cytoscape-popper.js"></script>
 
+
+	<!--For Tippy.js Demo-->
+	<script src="https://unpkg.com/tippy.js@1.4.2/dist/tippy.js"></script>
+	<link rel="stylesheet" href="https://unpkg.com/tippy.js@1.4.2/dist/tippy.css">
+
 	<!-- Styling is for demo purposes only -->
 	<style>
 		body {
 			font-family: helvetica neue, helvetica, liberation sans, arial, sans-serif;
 			font-size: 14px
+		}
+
+		.tippy {
+			visibility: hidden;
 		}
 
 		#cy {
@@ -192,6 +201,10 @@
 		//Test Popper
 		let popperTest, popperTest2, popperTest3, popperTest4, popperTest5;
 
+		//Test Popper with Tippy.js
+		let tippyTest;
+
+		//Setup Cytoscape Objects and Popper elements
 		document.addEventListener('DOMContentLoaded', function () {
 
 			let cy = window.cy = cytoscape({
@@ -217,47 +230,23 @@
 				elements: {
 					nodes: [
 						{ data: { id: 'j', name: 'Sticky' } },
-						{ data: { id: 'e', name: 'Elaine' } },
-						{ data: { id: 'k', name: 'Kramer' } },
-						{ data: { id: 'g', name: 'George' } }
+						{ data: { id: 'e', name: 'HTML Test' } },
+						{ data: { id: 'k', name: 'Click for Tippy.js Tooltip' } }
 					],
 					edges: [
-						{ data: { source: 'j', target: 'e' } },
-						{ data: { source: 'j', target: 'k' } },
-						{ data: { source: 'j', target: 'g' } },
-						{ data: { source: 'e', target: 'j' } },
-						{ data: { source: 'e', target: 'k' } },
-						{ data: { source: 'k', target: 'j' } },
-						{ data: { source: 'k', target: 'e' } },
-						{ data: { source: 'k', target: 'g' } },
-						{ data: { source: 'g', target: 'j' } }
+						{ data: { source: 'j', target: 'e' } }
 					]
+				},
+
+				layout: {
+					name: 'grid',
 				}
 			});
 
-			//Sample Reference Object
-			let refObject = {
-				getBoundingClientRect: function (data) {
-					return {
-						top: 5 + window.pageYOffset,
-						left: 5 + window.pageXOffset,
-						right: 5 + window.pageXOffset,
-						bottom: 220 + window.pageYOffset,
-						width: 1,
-						height: 1,
-					};
-				},
-				get clientWidth() {
-					return 30;
-				},
-				get clientHeight() {
-					return 30;
-				},
-			};
-
+			let nodes = cy.nodes();
 
 			//Create Basic Popper
-			popperTest = cy.nodes()[0].popper({
+			popperTest = nodes[0].popper({
 				content: "popper-j",
 				popper: {
 					placement: "bottom"
@@ -265,59 +254,22 @@
 			});
 
 			//Bind Basic Popper
-			cy.elements().nodes()[0].on('drag', function () {
+			nodes[0].on('drag', function () {
 				popperTest.scheduleUpdate();
 			});
-			cy.elements().nodes()[0].on('zoom', function () {
+			nodes[0].on('zoom', function () {
 				popperTest.scheduleUpdate();
-			});
-
-			//Bind Popper with Custom Bounding Box
-			popperTest2 = cy.popper({
-				content: "core-popper",
-				popper: {
-					placement: "bottom"
-				},
-				boundingBox: function (data) {
-					return {
-						top: 450 + window.pageYOffset,
-						left: 600 + window.pageXOffset,
-						right: 700 + window.pageXOffset,
-						bottom: 220 + window.pageYOffset,
-						width: 1,
-						height: 1,
-					};
-				}
-			});
-
-			//Bind Popper with Custom Bounding Box
-			popperTest3 = cy.nodes()[0].popper({
-				content: "core-popper-ref",
-				refObject: refObject,
-				popper: {
-					placement: "bottom"
-				},
-				boundingBox: function (data) {
-					return {
-						top: 450 + window.pageYOffset,
-						left: 600 + window.pageXOffset,
-						right: 700 + window.pageXOffset,
-						bottom: 220 + window.pageYOffset,
-						width: 1,
-						height: 1,
-					};
-				}
 			});
 
 			//Bind Popper with HTML Element as a content
-			popperTest4 = cy.nodes()[3].popper({
+			popperTest4 = nodes[1].popper({
 				content: document.getElementById("html-element-test"),
 				popper: {
 					placement: "bottom"
 				}
 			});
 
-			cy.elements().nodes()[3].on('drag', function () {
+			nodes[1].on('drag', function () {
 				popperTest4.scheduleUpdate();
 			});
 
@@ -325,9 +277,36 @@
 				content: 'popper-e'
 			});
 
+			//Create Tippy.js tooltip using popper.js
+			let tippyReference = nodes[2].popperRef();
+			tippyTest = tippy(tippyReference, {
+				html: '#tippy-popper-test',
+				theme: 'light',
+				interactive: true,
+				trigger: 'manual',
+				hideOnClick: false,
+				arrow: true
+			});
+
+			//Bind Node to Tippy.js
+			nodes[2].on('tap', function () {
+				let visible = nodes[2].scratch('_visible');
+				let tippyPopper = tippyTest.getPopperElement(tippyTest.selector)
+
+				//Toggle Tooltip
+				if (visible) {
+					tippyTest.hide(tippyPopper, 500);
+					nodes[2].removeScratch('_visible');
+				}
+				else {
+					tippyTest.show(tippyPopper, 500);
+					nodes[2].scratch('_visible', true);
+				}
+			});
+
 			//Log Reference Objects
-			console.log(cy.elements().nodes()[0].popperRef());
-			console.log(cy.elements().nodes()[1].popperRef());
+			console.log(nodes[0].popperRef());
+			console.log(nodes[1].popperRef());
 			console.log(cy.popperRef());
 		});
 	</script>
@@ -338,9 +317,8 @@
 	<div id="cy"></div>
 	<div class="popper" id="popper-j">Drag Me</div>
 	<div class="popper" id="popper-e">This is an edge!</div>
-	<div class="popper" id="core-popper">Core-Custom-Bounding-Box</div>
-	<div class="popper" id="core-popper-ref">Core-Custom-Reference-Object</div>
-	<div class="popper" id="html-element-test">Html Element Test</div>
+	<div class="popper" id="html-element-test">Html element test</div>
+	<div class="tippy" id="tippy-popper-test">This is a Tippy.js test</div>
 </body>
 
 </html>

@@ -121,7 +121,7 @@ let popperTest3 = cyNode.popper({
 ```
 
 ### Providing a custom position for nodes
-If you wish you may also provide a custom position by providing a function which returns a position object; 
+If you wish you may also provide a custom position by providing a function which returns a position object;
 
 ```
 userOptions = {
@@ -131,6 +131,30 @@ userOptions = {
   position : positionFunc
 }
 ```
+
+### Using Cytoscape-Popper with Tippy.js
+Cytoscape popper can also be used to enable Tippy.js functionality with Cytoscape Elements, by simply passing the `popperRef' object into tippy. 
+
+#### Tippy Initialization
+```js
+//Create Tippy.js tooltip using popper.js
+  let tippyReference = cyNode.popperRef();
+  let tippyOptions = {html: '#tippy-popper-test', trigger: 'manual', hideOnClick: false, arrow: false };
+  tippyTest = tippy(tippyReference, tippyOptions); 
+```
+
+* Refer to [Tippy.js](https://atomiks.github.io/tippyjs/) for more details on `tippyOptions`
+
+#### Binding to the Tippy Object
+```js
+cyNode.on('tap', function () { 
+  let tippyPopper = tippyTest.getPopperElement(tippyTest.selector) 
+  tippyTest.show(tippyPopper, 500);
+});
+```
+* Refer to [Tippy.js](https://atomiks.github.io/tippyjs/) for more details on tippy methods. 
+
+
 
 ## Build targets
 
