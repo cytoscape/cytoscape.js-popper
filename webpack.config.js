@@ -22,7 +22,14 @@ let config = {
       { test: /\.js$/, exclude: /node_modules/, use: 'babel-loader' }
     ]
   },
-  externals: PROD ? Object.keys( pkg.dependencies || {} ) : [],
+  externals: {
+    "popper.js" : {
+      commonjs: "popper.js",
+      commonjs2: "popper.js",
+      amd: "popper.js",
+      root: "Popper"
+    }
+  },
   plugins: MIN ? [
     new webpack.optimize.UglifyJsPlugin({
       compress: {
