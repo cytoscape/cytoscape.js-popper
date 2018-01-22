@@ -1,22 +1,18 @@
-const popperRenderer = require('./render');
-const createReferenceObject = require('./createReferenceObject');
 const assign = require('./assign');
+const { getPopper } = require('./popper');
+const { getRef } = require('./ref');
 
-//Create a popper object (This is for use on the core)
-module.exports.popper = function (userOptions) {
-  return popperRenderer.createPopperObject(this, createOptionsObject(this, userOptions));
-};
+function popper(opts) {
+  return getPopper(this, createOptionsObject(this, opts));
+}
 
 
-//Create a reference object (This is for use on the core)
-module.exports.popperRef = function (userOptions) {
-  return createReferenceObject.getRef(this, createOptionsObject(this, userOptions));
-};
+function popperRef(opts) {
+  return getRef(this, createOptionsObject(this, opts));
+}
 
 //Create a options object with required default values
-function createOptionsObject(target, userOptions) {
-  
-  //Set Defaults 
+function createOptionsObject(target, opts) {
   let defaults = {
     boundingBox : {
       top: 0,
@@ -26,16 +22,13 @@ function createOptionsObject(target, userOptions) {
       w: 3,
       h: 3,
     },
-    getDimensions : () => ({w: 3, h: 3}),
-    position : () => ({x : 0, y : 0}),
+    renderedDimensions : () => ({w: 3, h: 3}),
+    redneredPosition : () => ({x : 0, y : 0}),
     popper : {},
     cy : target
   };
 
-  //Create a user options object
-  userOptions = assign( {}, defaults, userOptions );
-
-  return userOptions;
+  return assign( {}, defaults, opts );
 }
 
-
+module.exports = { popper, popperRef };

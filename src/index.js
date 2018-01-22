@@ -1,4 +1,5 @@
-//Get dependencies
+/* global cytoscape */
+
 const coreImpl = require('./core');
 const collectionImpl = require('./collection');
 
@@ -9,7 +10,7 @@ let register = function (cytoscape) {
   // register with cytoscape.js
   cytoscape('core', 'popper', coreImpl.popper);  //Cytoscape Core
   cytoscape('collection', 'popper', collectionImpl.popper); //Cytoscape Collections
-  cytoscape('core', 'popperRef', coreImpl.popperRef);  //Cytoscape Core for References 
+  cytoscape('core', 'popperRef', coreImpl.popperRef);  //Cytoscape Core for References
   cytoscape('collection', 'popperRef', collectionImpl.popperRef); //Cytoscape Collections for References
 
 };

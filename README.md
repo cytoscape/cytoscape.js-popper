@@ -75,7 +75,10 @@ Each function takes an options object, as follows:
 let popper1 = cy.nodes()[0].popper({
   content: () => {
     let div = document.createElement('div');
+
     div.innerHTML = 'Popper content';
+
+    document.body.appendChild(div);
 
     return div;
   },
@@ -86,7 +89,10 @@ let popper1 = cy.nodes()[0].popper({
 let popper2 = cy.popper({
   content: () => {
     let div = document.createElement('div');
+
     div.innerHTML = 'Popper content';
+
+    document.body.appendChild(div);
 
     return div;
   },
@@ -115,15 +121,22 @@ let node = cy.nodes().first();
 let popper = node.popper({
   content: () => {
     let div = document.createElement('div');
+
     div.innerHTML = 'Sticky Popper content';
+
+    document.body.appendChild( div );
 
     return div;
   }
 });
 
-node.on('position', () => {
+let update = () => {
   popper.scheduleUpdate();
-});
+};
+
+node.on('position', update);
+
+cy.on('pan zoom resize', update);
 ```
 
 ### Usage with Tippy.js
@@ -135,26 +148,22 @@ let node = cy.nodes().first();
 
 let ref = node.popperRef(); // used only for positioning
 
-// using tippy ^1.4.2
+// using tippy ^2.0.0
 let tippy = new Tippy(ref, { // tippy options:
   html: (() => {
     let content = document.createElement('div');
+
     content.innerHTML = 'Tippy content';
 
     return content;
   })(),
   trigger: 'manual' // probably want manual mode
-});
+}).tooltips[0];
 
-let popper = tippy.getPopperElement( ref );
-
-let showTippy = () => tippy.show( popper );
-let hideTippy = () => tippy.hide( popper );
-
-node.on('tap', showTippy);
+node.on('tap', () => tippy.show());
 ```
 
-Refer to [Tippy.js](https://atomiks.github.io/tippyjs/v1) documentation for more details.
+Refer to [Tippy.js](https://atomiks.github.io/tippyjs) documentation for more details.
 
 
 

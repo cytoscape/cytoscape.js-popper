@@ -1,40 +1,34 @@
-const popperRenderer = require('./render');
-const createReferenceObject = require('./createReferenceObject');
 const assign = require('./assign');
+const { getPopper } = require('./popper');
+const { getRef } = require('./ref');
 
-//Create apopper object for first element in a collection
-module.exports.popper = function (userOptions) {
-  warn(this);
-  return popperRenderer.createPopperObject(this[0], createOptionsObject(this[0], userOptions));
-};
+function popper (opts) {
+  checkForWarning(this);
 
-//Create a reference object for a element in a collection
-module.exports.popperRef = function (userOptions) {
-  warn(this);
-  return createReferenceObject.getRef(this[0], createOptionsObject(this[0], userOptions));
+  return getPopper(this[0], createOptionsObject(this[0], opts));
+}
 
-};
+function popperRef(opts) {
+  checkForWarning(this);
 
-//Create a options object with required default values
-function createOptionsObject(target, userOptions) {
-  //Set Defaults
-  let defaults = {
-    getDimensions: (target) => ({ w: target.renderedWidth(), h: target.renderedHeight() }),
-    position: (target) => target.isNode() ? getRenderedCenter(target, defaults.getDimensions) : getRenderedMidpoint(target),
-    popper : {},
-    cy: target.cy()
-  };
+  return getRef(this[0], createOptionsObject(this[0], opts));
+}
 
-  //Create a user options object
-  userOptions = assign( {}, defaults, userOptions );
+function createOptionsObject(target, opts) {
+  let renderedDimensions = el => ({ w: el.renderedWidth(), h: el.renderedHeight() });
+  let renderedPosition = el => el.isNode() ? getRenderedCenter(el, renderedDimensions) : getRenderedMidpoint(el);
+  let popper = {};
+  let cy = target.cy();
 
-  return userOptions;
+  let defaults = { renderedDimensions, renderedPosition, popper, cy };
+
+  return assign( {}, defaults, opts );
 }
 
 //Get the rendered center
-function getRenderedCenter(target, getDimensions){
+function getRenderedCenter(target, renderedDimensions){
   let pos = target.renderedPosition();
-  let dimensions = getDimensions(target);
+  let dimensions = renderedDimensions(target);
   let offsetX = dimensions.w / 2;
   let offsetY = dimensions.h / 2;
 
@@ -57,14 +51,16 @@ function getRenderedMidpoint(target){
 }
 
 //Warn user about misuse of the plugin
-function warn(elements) {
+function checkForWarning(elements) {
+  /* eslint-disable no-console */
+
   //Popper.js Should only be used on 1 element
   if (elements.length > 1) {
     console.warn("Popper.js Extension should only be used on one element.");
     console.warn("Ignoring all subsequent elements");
   }
+
+  /* eslint-enable */
 }
 
-
-
-
+module.exports = { popper, popperRef };

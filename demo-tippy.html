@@ -3,7 +3,7 @@
 <html>
 
 <head>
-	<title>cytoscape-popper.js demo</title>
+	<title>cytoscape-popper.js tippy demo</title>
 
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
 	<script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
@@ -13,6 +13,10 @@
 
   <script src="https://unpkg.com/popper.js"></script>
 	<script src="cytoscape-popper.js"></script>
+
+	<script src="https://unpkg.com/tippy.js@2.0.9/dist/tippy.all.js"></script>
+
+	<link rel="stylesheet" href="https://unpkg.com/tippy.js@2.0.9/dist/tippy.css" />
 
 	<style>
 		body {
@@ -35,12 +39,9 @@
 			font-weight: bold;
 		}
 
-		.popper-div { /* just an example */
-			border: 1px solid red;
-			background: #fff;
-			z-index: 9999;
-			padding: 0.25em;
-			pointer-events: none;
+		/* makes sticky faster; disable if you want animated tippies */
+		.tippy-popper {
+			transition: none !important;
 		}
 	</style>
 
@@ -85,39 +86,37 @@
 			var a = cy.getElementById('a');
 			var b = cy.getElementById('b');
 
-			var makeDiv = function(text){
-				var div = document.createElement('div');
+			var makeTippy = function(node, text){
+				return tippy( node.popperRef(), {
+					html: (function(){
+						var div = document.createElement('div');
 
-				div.classList.add('popper-div');
+						div.innerHTML = text;
 
-				div.innerHTML = text;
-
-				document.body.appendChild( div );
-
-				return div;
+						return div;
+					})(),
+					trigger: 'manual',
+					arrow: true,
+					placement: 'bottom',
+					hideOnClick: false,
+					multiple: true,
+					sticky: true
+				} ).tooltips[0];
 			};
 
-			var popperA = a.popper({
-				content: function(){ return makeDiv('Sticky position div'); }
-			});
+			var tippyA = makeTippy(a, 'foo');
 
-			var updateA = function(){
-				popperA.scheduleUpdate();
-			};
+			tippyA.show();
 
-			a.on('position', updateA);
-			cy.on('pan zoom resize', updateA);
+			var tippyB = makeTippy(b, 'bar');
 
-			var popperB = b.popper({
-				content: function(){ return makeDiv('One time position div'); }
-			})
-
+			tippyB.show();
 		});
 	</script>
 </head>
 
 <body>
-	<h1>cytoscape-popper demo</h1>
+	<h1>cytoscape-popper tippy demo</h1>
 	<div id="cy"></div>
 </body>
 
