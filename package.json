@@ -1,6 +1,6 @@
 {
   "name": "cytoscape-popper",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Cytoscape.js extension for Popper.js",
   "main": "cytoscape-popper.js",
   "author": "Cytoscape",
