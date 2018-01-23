@@ -4,7 +4,7 @@ cytoscape-popper
 
 ## Description
 
-A Cytoscape.js extension for integrating [Popper.js](https://popper.js.org/) ([demo](https://cytoscape.github.io/cytoscape.js-popper))
+A Cytoscape.js extension for integrating [Popper.js](https://popper.js.org/) ([demo](https://cytoscape.github.io/cytoscape.js-popper)) ([tippy demo](https://cytoscape.github.io/cytoscape.js-popper/demo-tippy.html))
 
 Popper.js allows you to dynamically align a div, e.g. a tooltip, to another element in the page.  This extension allows you to use Popper.js on Cytoscape elements.  This allows you to create DOM elements positioned on or around Cytoscape elements.  It is useful for tooltips and overlays, for example.
 
