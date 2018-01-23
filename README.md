@@ -1,6 +1,7 @@
 cytoscape-popper
 ================================================================================
 
+[![DOI](https://zenodo.org/badge/102492695.svg)](https://zenodo.org/badge/latestdoi/102492695)
 
 ## Description
 
