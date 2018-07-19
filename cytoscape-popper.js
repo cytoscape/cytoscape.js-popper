@@ -318,14 +318,12 @@ function getBoundingBox(target, opts) {
   var offset = cy.container().getBoundingClientRect();
   var dims = renderedDimensions(target);
   var pos = renderedPosition(target);
-  var scrollY = window.pageYOffset;
-  var scrollX = window.pageXOffset;
 
   return {
-    top: pos.y + offset.top + scrollY,
-    left: pos.x + offset.left + scrollX,
-    right: pos.x + dims.w + offset.left + scrollX,
-    bottom: pos.y + dims.h + offset.top + scrollY,
+    top: pos.y + offset.top,
+    left: pos.x + offset.left,
+    right: pos.x + dims.w + offset.left,
+    bottom: pos.y + dims.h + offset.top,
     width: dims.w,
     height: dims.h
   };
