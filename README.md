@@ -151,13 +151,13 @@ let ref = node.popperRef(); // used only for positioning
 
 // using tippy ^4.0.0
 let tippy = new Tippy(ref, { // tippy options:
-  content: (() => {
+  content: () => {
     let content = document.createElement('div');
 
     content.innerHTML = 'Tippy content';
 
     return content;
-  })(),
+  },
   trigger: 'manual' // probably want manual mode
 });
 
