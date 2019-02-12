@@ -11,12 +11,11 @@
 	<!-- for testing with local version of cytoscape.js -->
 	<!--<script src="../cytoscape.js/build/cytoscape.js"></script>-->
 
-  <script src="https://unpkg.com/popper.js"></script>
+  <script src="https://unpkg.com/popper.js@1.14.7/dist/umd/popper.js"></script>
 	<script src="cytoscape-popper.js"></script>
 
-	<script src="https://unpkg.com/tippy.js@2.0.9/dist/tippy.all.js"></script>
-
-	<link rel="stylesheet" href="https://unpkg.com/tippy.js@2.0.9/dist/tippy.css" />
+	<script src="https://unpkg.com/tippy.js@4.0.1/umd/index.all.min.js"></script>
+	<link rel="stylesheet" href="https://unpkg.com/tippy.js@4.0.1/index.css" />
 
 	<style>
 		body {
@@ -88,20 +87,20 @@
 
 			var makeTippy = function(node, text){
 				return tippy( node.popperRef(), {
-					html: (function(){
+					content: function(){
 						var div = document.createElement('div');
 
 						div.innerHTML = text;
 
 						return div;
-					})(),
+					},
 					trigger: 'manual',
 					arrow: true,
 					placement: 'bottom',
 					hideOnClick: false,
 					multiple: true,
 					sticky: true
-				} ).tooltips[0];
+				} );
 			};
 
 			var tippyA = makeTippy(a, 'foo');
