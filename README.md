@@ -149,9 +149,9 @@ let node = cy.nodes().first();
 
 let ref = node.popperRef(); // used only for positioning
 
-// using tippy ^2.0.0
+// using tippy ^4.0.0
 let tippy = new Tippy(ref, { // tippy options:
-  html: (() => {
+  content: (() => {
     let content = document.createElement('div');
 
     content.innerHTML = 'Tippy content';
@@ -159,7 +159,7 @@ let tippy = new Tippy(ref, { // tippy options:
     return content;
   })(),
   trigger: 'manual' // probably want manual mode
-}).tooltips[0];
+});
 
 node.on('tap', () => tippy.show());
 ```
