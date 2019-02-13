@@ -73,7 +73,7 @@
 						{ data: { id: 'b' } }
 					],
 					edges: [
-						{ data: { source: 'a', target: 'b' } }
+						{ data: { id: 'ab', source: 'a', target: 'b' } }
 					]
 				},
 
@@ -84,6 +84,7 @@
 
 			var a = cy.getElementById('a');
 			var b = cy.getElementById('b');
+			var ab = cy.getElementById('ab');
 
 			var makeDiv = function(text){
 				var div = document.createElement('div');
@@ -110,8 +111,18 @@
 
 			var popperB = b.popper({
 				content: function(){ return makeDiv('One time position div'); }
-			})
+			});
 
+			var popperAB = ab.popper({
+				content: function(){ return makeDiv('Sticky position div'); }
+			});
+
+			var updateAB = function(){
+				popperAB.scheduleUpdate();
+			};
+
+			ab.connectedNodes().on('position', updateAB);
+			cy.on('pan zoom resize', updateAB);
 		});
 	</script>
 </head>

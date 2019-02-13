@@ -201,7 +201,7 @@ function popperRef(opts) {
 
 function createOptionsObject(target, opts) {
   var renderedDimensions = function renderedDimensions(el) {
-    return { w: el.renderedWidth(), h: el.renderedHeight() };
+    return el.isNode() ? { w: el.renderedWidth(), h: el.renderedHeight() } : { w: 3, h: 3 };
   };
   var renderedPosition = function renderedPosition(el) {
     return el.isNode() ? getRenderedCenter(el, renderedDimensions) : getRenderedMidpoint(el);

@@ -73,7 +73,7 @@
 						{ data: { id: 'b' } }
 					],
 					edges: [
-						{ data: { source: 'a', target: 'b' } }
+						{ data: { id: 'ab', source: 'a', target: 'b' } }
 					]
 				},
 
@@ -84,6 +84,7 @@
 
 			var a = cy.getElementById('a');
 			var b = cy.getElementById('b');
+			var ab = cy.getElementById('ab');
 
 			var makeTippy = function(node, text){
 				return tippy( node.popperRef(), {
@@ -110,6 +111,10 @@
 			var tippyB = makeTippy(b, 'bar');
 
 			tippyB.show();
+
+			var tippyAB = makeTippy(ab, 'baz');
+
+			tippyAB.show();
 		});
 	</script>
 </head>
