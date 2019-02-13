@@ -15,7 +15,7 @@ function popperRef(opts) {
 }
 
 function createOptionsObject(target, opts) {
-  let renderedDimensions = el => ({ w: el.renderedWidth(), h: el.renderedHeight() });
+  let renderedDimensions = el => el.isNode() ? ({ w: el.renderedWidth(), h: el.renderedHeight() }) : ({ w: 3, h: 3 });
   let renderedPosition = el => el.isNode() ? getRenderedCenter(el, renderedDimensions) : getRenderedMidpoint(el);
   let popper = {};
   let cy = target.cy();
