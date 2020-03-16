@@ -142,9 +142,9 @@ cy.on('pan zoom resize', update);
 
 ### Usage with Tippy.js
 
-This extension can also be used to enable [Tippy.js](https://atomiks.github.io/tippyjs/) tooltip functionality with Cytoscape.
+This extension can also be used to enable [Tippy.js](https://atomiks.github.io/tippyjs/v5/) tooltip functionality with Cytoscape.  Any version of Tippy that is compatible with Popper v1 is compatible with this extension.  As of this writing, the latest compatible version of Tippy.js is v5.2.1.
 
-N.B. the creation of many `Tippy` instances at once has performance implications, especially for large graphs.  Create each instance on demand, e.g. on `tap`.  Use [`destroy()`](https://atomiks.github.io/tippyjs/methods/#destroy) instead of `hide()` where possible.
+The creation of many `Tippy` instances at once has performance implications, especially for large graphs.  Create each instance on demand, e.g. on `tap`.  Use [`destroy()`](https://atomiks.github.io/tippyjs/v5/methods/#destroy) instead of `hide()` where possible.
 
 ```js
 let node = cy.nodes().first();
@@ -155,7 +155,7 @@ let ref = node.popperRef(); // used only for positioning
 // https://github.com/atomiks/tippyjs/issues/661
 let dummyDomEle = document.createElement('div');
 
-// using tippy@^5.1.3
+// using tippy@^5.2.1
 let tip = new Tippy(dummyDomEle, { // tippy options:
   // mandatory:
   trigger: 'manual', // call show() and hide() yourself
@@ -176,7 +176,7 @@ let tip = new Tippy(dummyDomEle, { // tippy options:
 tip.show();
 ```
 
-Refer to [Tippy.js](https://atomiks.github.io/tippyjs) documentation for more details.
+Refer to [Tippy.js](https://atomiks.github.io/tippyjs/v5) documentation for more details.
 
 
 
