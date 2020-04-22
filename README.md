@@ -144,6 +144,8 @@ cy.on('pan zoom resize', update);
 
 This extension can also be used to enable [Tippy.js](https://atomiks.github.io/tippyjs/v5/) tooltip functionality with Cytoscape.  Any version of Tippy that is compatible with Popper v1 is compatible with this extension.  As of this writing, the latest compatible version of Tippy.js is v5.2.1.
 
+> :warning: Tippy.js v6+ is **not** compatible with Popper v1 (see [this](https://github.com/atomiks/tippyjs/blob/master/MIGRATION_GUIDE.md#5x-to-6x)). As such, the latest (major) version of Tippy you can use is v5.
+
 The creation of many `Tippy` instances at once has performance implications, especially for large graphs.  Create each instance on demand, e.g. on `tap`.  Use [`destroy()`](https://atomiks.github.io/tippyjs/v5/methods/#destroy) instead of `hide()` where possible.
 
 ```js
