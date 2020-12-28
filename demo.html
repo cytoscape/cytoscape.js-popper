@@ -11,7 +11,7 @@
 	<!-- for testing with local version of cytoscape.js -->
 	<!--<script src="../cytoscape.js/build/cytoscape.js"></script>-->
 
-  <script src="https://unpkg.com/popper.js@1.16.0/dist/umd/popper.js"></script>
+  	<script src="https://unpkg.com/@popperjs/core@2"></script>
 	<script src="cytoscape-popper.js"></script>
 
 	<style>
@@ -103,7 +103,7 @@
 			});
 
 			var updateA = function(){
-				popperA.scheduleUpdate();
+				popperA.update();
 			};
 
 			a.on('position', updateA);
@@ -118,7 +118,7 @@
 			});
 
 			var updateAB = function(){
-				popperAB.scheduleUpdate();
+				popperAB.update();
 			};
 
 			ab.connectedNodes().on('position', updateAB);
