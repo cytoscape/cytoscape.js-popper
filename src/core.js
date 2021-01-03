@@ -23,7 +23,7 @@ function createOptionsObject(target, opts) {
       h: 3,
     },
     renderedDimensions : () => ({w: 3, h: 3}),
-    redneredPosition : () => ({x : 0, y : 0}),
+    renderedPosition : () => ({x : 0, y : 0}),
     popper : {},
     cy : target
   };
