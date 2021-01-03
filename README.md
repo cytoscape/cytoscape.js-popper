@@ -12,7 +12,7 @@ Popper.js allows you to dynamically align a div, e.g. a tooltip, to another elem
 ## Dependencies
 
  * Cytoscape.js ^3.2.0
- * Popper.js ^2.4.4
+ * Popper.js ^2.0.0
 
 
 ## Usage instructions
@@ -52,16 +52,15 @@ require(['cytoscape', 'cytoscape-popper'], function( cytoscape, popper ){
 
 Plain HTML/JS has the extension registered for you automatically, because no `require()` is needed.
 
-
 ## API
 
 This extension exposes two functions, `popper()` and `popperRef()`.  These functions are defined for both the core and for elements, so you can call `cy.popper()` or `ele.popper()` for example.
 
 Each function takes an options object, as follows:
 
-`cy.popper( options )` or `ele.popper( options )` : Get a [Popper Instance](https://popper.js.org/docs/v2/constructors/#createpopper) for the specified core Cytoscape instance or the specified element.  This is useful for positioning a div relative to or on top of a core instance or element.
+`cy.popper( options )` or `ele.popper( options )` : Get a [Popper Instance](https://popper.js.org/docs/v2/constructors/) for the specified core Cytoscape instance or the specified element.  This is useful for positioning a div relative to or on top of a core instance or element.
 
-`cy.popperRef( options )` or `ele.popperRef( options )` : Get a [Popper Virtual Element](https://popper.js.org/docs/v2/virtual-elements/) for the specified core Cytoscape instance or the specified element.  A Popper virtual element is useful only for positioning, as it represent the target rather than the content.  This is useful for cases where you want to `createPopper()` manually or where you need to pass a `popperRef` object to another library like Tippy.js.
+`cy.popperRef( options )` or `ele.popperRef( options )` : Get a [Popper virtual element](https://popper.js.org/docs/v2/virtual-elements/) (aka `Popper reference object` in Popper v1) for the specified core Cytoscape instance or the specified element.  A Popper virtual element is useful only for positioning, as it represent the target rather than the content.  This is useful for cases where you want to create a new Popper instance manually via Popper constructor `createPopper()` or where you need to pass a `popperRef` object to another library like Tippy.js.
 
  - `options`
    - `content` : The HTML content of the popper.  May be a DOM `Element` reference or a function that returns one.
@@ -155,7 +154,6 @@ let ref = node.popperRef(); // used only for positioning
 // https://atomiks.github.io/tippyjs/v6/constructor/#target-types
 let dummyDomEle = document.createElement('div');
 
-// using tippy@^6.2.5
 let tip = new Tippy(dummyDomEle, { // tippy props:
    getReferenceClientRect: ref.getBoundingClientRect, // https://atomiks.github.io/tippyjs/v6/all-props/#getreferenceclientrect
    trigger: 'manual', // mandatory, we cause the tippy to show programmatically.
@@ -176,7 +174,10 @@ tip.show();
 
 Refer to [Tippy.js](https://atomiks.github.io/tippyjs/) documentation for more details.
 
+## v2 changes
+This version of cytoscape-popper has been updated to use Popper 2 and be compatible with Tippy 6. Thus, it is no longer compatible with Popper v1/Tippy v5. If your application needs Popper v1/Tippy v5, use the latest v1 version of cytoscape-popper instead. Cytoscape-popper v1 dependencies are Cytoscape.js ^3.2.0 and Popper.js ^1.12.0.
 
+The cytoscape-popper api has not changed in v2, but you may need to update your code if it references Popper/Tippy. See [Migrating to Popper 2](https://popper.js.org/docs/v2/migration-guide/) and [Tippy Migration Guide](https://github.com/atomiks/tippyjs/blob/master/MIGRATION_GUIDE.md#5x-to-6x).
 
 ## Build targets
 

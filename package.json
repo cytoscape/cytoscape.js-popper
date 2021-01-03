@@ -51,6 +51,6 @@
     "cytoscape": "^3.2.0"
   },
   "dependencies": {
-    "@popperjs/core": "^2.4.4"
+    "@popperjs/core": "^2.0.0"
   }
 }
