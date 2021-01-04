@@ -1,23 +1,14 @@
 const { getBoundingBox } = require('./bb');
 
-// Create a popper reference object
-// https://popper.js.org/popper-documentation.html#referenceObject
+// Create a popper virtual element (aka popper v1 reference object)
+// https://popper.js.org/docs/v2/virtual-elements/
 function getRef(target, opts) {
-  let { renderedDimensions } = opts;
 
   //Define popper reference object and cy reference  object
   let refObject = {
     getBoundingClientRect: function() {
       return getBoundingBox(target, opts);
-    },
-
-    get clientWidth() {
-      return renderedDimensions(target).w;
-    },
-
-    get clientHeight() {
-      return renderedDimensions(target).h;
-    },
+    }
   };
 
   return refObject;

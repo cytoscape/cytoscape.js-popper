@@ -23,10 +23,10 @@ let config = {
     ]
   },
   externals: {
-    "popper.js" : {
-      commonjs: "popper.js",
-      commonjs2: "popper.js",
-      amd: "popper.js",
+    "@popperjs/core" : {
+      commonjs: "@popperjs/core",
+      commonjs2: "@popperjs/core",
+      amd: "@popperjs/core",
       root: "Popper"
     }
   },
