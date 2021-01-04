@@ -1,10 +1,10 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("popper.js"));
+		module.exports = factory(require("@popperjs/core"));
 	else if(typeof define === 'function' && define.amd)
-		define(["popper.js"], factory);
+		define(["@popperjs/core"], factory);
 	else if(typeof exports === 'object')
-		exports["cytoscapePopper"] = factory(require("popper.js"));
+		exports["cytoscapePopper"] = factory(require("@popperjs/core"));
 	else
 		root["cytoscapePopper"] = factory(root["Popper"]);
 })(this, function(__WEBPACK_EXTERNAL_MODULE_8__) {
@@ -111,26 +111,16 @@ module.exports = Object.assign != null ? Object.assign.bind(Object) : function (
 var _require = __webpack_require__(5),
     getBoundingBox = _require.getBoundingBox;
 
-// Create a popper reference object
-// https://popper.js.org/popper-documentation.html#referenceObject
+// Create a popper virtual element (aka popper v1 reference object)
+// https://popper.js.org/docs/v2/virtual-elements/
 
 
 function getRef(target, opts) {
-  var renderedDimensions = opts.renderedDimensions;
 
   //Define popper reference object and cy reference  object
-
   var refObject = {
     getBoundingClientRect: function getBoundingClientRect() {
       return getBoundingBox(target, opts);
-    },
-
-    get clientWidth() {
-      return renderedDimensions(target).w;
-    },
-
-    get clientHeight() {
-      return renderedDimensions(target).h;
     }
   };
 
@@ -156,20 +146,18 @@ var _require2 = __webpack_require__(6),
 
 var popperDefaults = {};
 
-//Fix Popper.js webpack import conflict (Use .default if using webpack)
-var Popper = __webpack_require__(8);
-var EsmWebpackPopper = Popper.default;
-if (EsmWebpackPopper != null && EsmWebpackPopper.Defaults != null) {
-  Popper = Popper.default;
-}
+var _require3 = __webpack_require__(8),
+    createPopper = _require3.createPopper;
 
 // Create a new popper object for a core or element target
+
+
 function getPopper(target, opts) {
   var refObject = getRef(target, opts);
   var content = getContent(target, opts.content);
   var popperOpts = assign({}, popperDefaults, opts.popper);
 
-  return new Popper(refObject, content, popperOpts);
+  return createPopper(refObject, content, popperOpts);
 }
 
 module.exports = { getPopper: getPopper };
@@ -293,7 +281,7 @@ function createOptionsObject(target, opts) {
     renderedDimensions: function renderedDimensions() {
       return { w: 3, h: 3 };
     },
-    redneredPosition: function redneredPosition() {
+    renderedPosition: function renderedPosition() {
       return { x: 0, y: 0 };
     },
     popper: {},

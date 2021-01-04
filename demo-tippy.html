@@ -11,11 +11,10 @@
 	<!-- for testing with local version of cytoscape.js -->
 	<!--<script src="../cytoscape.js/build/cytoscape.js"></script>-->
 
-  <script src="https://unpkg.com/popper.js@1.16.0/dist/umd/popper.js"></script>
+	<script src="https://unpkg.com/@popperjs/core@2"></script>
 	<script src="cytoscape-popper.js"></script>
 
-	<script src="https://unpkg.com/tippy.js@5.2.1/dist/tippy-bundle.iife.min.js"></script>
-	<link rel="stylesheet" href="https://unpkg.com/tippy.js@5.2.1/dist/tippy.css" />
+	<script src="https://unpkg.com/tippy.js@6"></script>
 
 	<style>
 		body {
@@ -86,23 +85,15 @@
 			var b = cy.getElementById('b');
 			var ab = cy.getElementById('ab');
 
-			var makeTippy = function(node, text){
-				var ref = node.popperRef();
+			var makeTippy = function(ele, text){
+				var ref = ele.popperRef();
 
-				// unfortunately, a dummy element must be passed
-				// as tippy only accepts a dom element as the target
-				// https://github.com/atomiks/tippyjs/issues/661
+				// Since tippy constructor requires DOM element/elements, create a placeholder
 				var dummyDomEle = document.createElement('div');
 
 				var tip = tippy( dummyDomEle, {
-					onCreate: function(instance){ // mandatory
-						// patch the tippy's popper reference so positioning works
-						// https://atomiks.github.io/tippyjs/misc/#custom-position
-						instance.popperInstance.reference = ref;
-					},
-					lazy: false, // mandatory
+					getReferenceClientRect: ref.getBoundingClientRect,
 					trigger: 'manual', // mandatory
-
 					// dom element inside the tippy:
 					content: function(){ // function can be better for performance
 						var div = document.createElement('div');
@@ -111,13 +102,11 @@
 
 						return div;
 					},
-
 					// your own preferences:
 					arrow: true,
 					placement: 'bottom',
 					hideOnClick: false,
-					multiple: true,
-					sticky: true,
+					sticky: "reference",
 
 					// if interactive:
 					interactive: true,
