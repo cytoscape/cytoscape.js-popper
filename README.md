@@ -52,6 +52,17 @@ require(['cytoscape', 'cytoscape-popper'], function( cytoscape, popper ){
 
 Plain HTML/JS has the extension registered for you automatically, because no `require()` is needed.
 
+```html
+<script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
+<script src="https://unpkg.com/cytoscape-popper@2.0.0/cytoscape-popper.js"></script>
+```
+
+For tippy:
+
+```html
+<script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.min.js"></script>
+```
+
 ## API
 
 This extension exposes two functions, `popper()` and `popperRef()`.  These functions are defined for both the core and for elements, so you can call `cy.popper()` or `ele.popper()` for example.
@@ -154,7 +165,7 @@ let ref = node.popperRef(); // used only for positioning
 // https://atomiks.github.io/tippyjs/v6/constructor/#target-types
 let dummyDomEle = document.createElement('div');
 
-let tip = new Tippy(dummyDomEle, { // tippy props:
+let tip = new tippy(dummyDomEle, { // tippy props:
    getReferenceClientRect: ref.getBoundingClientRect, // https://atomiks.github.io/tippyjs/v6/all-props/#getreferenceclientrect
    trigger: 'manual', // mandatory, we cause the tippy to show programmatically.
    
