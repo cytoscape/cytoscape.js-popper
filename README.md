@@ -154,7 +154,7 @@ let ref = node.popperRef(); // used only for positioning
 // https://atomiks.github.io/tippyjs/v6/constructor/#target-types
 let dummyDomEle = document.createElement('div');
 
-let tip = new Tippy(dummyDomEle, { // tippy props:
+let tip = new tippy(dummyDomEle, { // tippy props:
    getReferenceClientRect: ref.getBoundingClientRect, // https://atomiks.github.io/tippyjs/v6/all-props/#getreferenceclientrect
    trigger: 'manual', // mandatory, we cause the tippy to show programmatically.
    
