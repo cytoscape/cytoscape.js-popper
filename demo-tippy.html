@@ -68,7 +68,7 @@
 		}
 
 		document.addEventListener('DOMContentLoaded', function () {
-			cytoscape.use(cytoscapePopper, tippyFactory);
+			cytoscape.use(cytoscapePopper(tippyFactory));
 
 			var cy = window.cy = cytoscape({
 				container: document.getElementById('cy'),

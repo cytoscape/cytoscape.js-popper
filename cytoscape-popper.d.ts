@@ -1,6 +1,6 @@
 import * as cy from "cytoscape";
 
-declare const cytoscapePopper: cy.Ext;
+declare const cytoscapePopper: (factory: cytoscapePopper.PopperFactory) => cy.Ext;
 export = cytoscapePopper;
 export as namespace cytoscapePopper;
 
@@ -46,7 +46,7 @@ declare namespace cytoscapePopper {
 
   type getPopperRef<Type> = (opts?: Options<Type>) => RefElement;
 
-  type PopperFactory = (ref: RefElement, content: HTMLElement, options: PopperOptions) => PopperInstance;
+  type PopperFactory = (ref: RefElement, content: HTMLElement, options?: PopperOptions) => PopperInstance;
 }
 
 declare global {

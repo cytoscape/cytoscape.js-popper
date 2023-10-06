@@ -83,31 +83,6 @@ return /******/ (function(modules) { // webpackBootstrap
 "use strict";
 
 
-// Simple, internal Object.assign() polyfill for options objects etc.
-
-module.exports = Object.assign != null ? Object.assign.bind(Object) : function (tgt) {
-  for (var _len = arguments.length, srcs = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-    srcs[_key - 1] = arguments[_key];
-  }
-
-  srcs.forEach(function (src) {
-    if (src !== null && src !== undefined) {
-      Object.keys(src).forEach(function (k) {
-        return tgt[k] = src[k];
-      });
-    }
-  });
-
-  return tgt;
-};
-
-/***/ }),
-/* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
 var _require = __webpack_require__(5),
     getBoundingBox = _require.getBoundingBox;
 
@@ -130,29 +105,51 @@ function getRef(target, opts) {
 module.exports = { getRef: getRef };
 
 /***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+// Simple, internal Object.assign() polyfill for options objects etc.
+
+module.exports = Object.assign != null ? Object.assign.bind(Object) : function (tgt) {
+  for (var _len = arguments.length, srcs = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    srcs[_key - 1] = arguments[_key];
+  }
+
+  srcs.forEach(function (src) {
+    if (src !== null && src !== undefined) {
+      Object.keys(src).forEach(function (k) {
+        return tgt[k] = src[k];
+      });
+    }
+  });
+
+  return tgt;
+};
+
+/***/ }),
 /* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var assign = __webpack_require__(0);
-
-var _require = __webpack_require__(1),
+var _require = __webpack_require__(0),
     getRef = _require.getRef;
 
 var _require2 = __webpack_require__(6),
     getContent = _require2.getContent;
 
-var popperDefaults = {};
-
 // Create a new popper object for a core or element target
+
+
 function getPopper(target, opts) {
   var refObject = getRef(target, opts);
   var content = getContent(target, opts.content);
-  var popperOpts = assign({}, popperDefaults, opts.popper);
 
-  return target.popperFactory(refObject, content, popperOpts);
+  return target.popperFactory(refObject, content, opts.popper);
 }
 
 module.exports = { getPopper: getPopper };
@@ -164,12 +161,12 @@ module.exports = { getPopper: getPopper };
 "use strict";
 
 
-var assign = __webpack_require__(0);
+var assign = __webpack_require__(1);
 
 var _require = __webpack_require__(2),
     getPopper = _require.getPopper;
 
-var _require2 = __webpack_require__(1),
+var _require2 = __webpack_require__(0),
     getRef = _require2.getRef;
 
 function popper(opts) {
@@ -246,12 +243,12 @@ module.exports = { popper: popper, popperRef: popperRef };
 "use strict";
 
 
-var assign = __webpack_require__(0);
+var assign = __webpack_require__(1);
 
 var _require = __webpack_require__(2),
     getPopper = _require.getPopper;
 
-var _require2 = __webpack_require__(1),
+var _require2 = __webpack_require__(0),
     getRef = _require2.getRef;
 
 function popper(opts) {
@@ -357,24 +354,27 @@ var coreImpl = __webpack_require__(4);
 var collectionImpl = __webpack_require__(3);
 
 // registers the extension on a cytoscape lib ref
-var register = function register(cytoscape, popperFactory) {
-  if (!cytoscape) {
-    return;
-  } // can't register if cytoscape unspecified
+var registerFactory = function registerFactory(popperFactory) {
   if (typeof popperFactory !== "function") {
-    throw new Error('No \'popperFactory\' function specified');
+    throw new Error('Provide \'popperFactory\' before registering the module');
   }
 
-  // register with cytoscape.js
-  cytoscape('core', 'popperFactory', popperFactory); // Cytoscape Core factory
-  cytoscape('collection', 'popperFactory', popperFactory); //Cytoscape Collections factory
-  cytoscape('core', 'popper', coreImpl.popper); //Cytoscape Core
-  cytoscape('collection', 'popper', collectionImpl.popper); //Cytoscape Collections
-  cytoscape('core', 'popperRef', coreImpl.popperRef); //Cytoscape Core for References
-  cytoscape('collection', 'popperRef', collectionImpl.popperRef); //Cytoscape Collections for References
+  return function register(cytoscape) {
+    if (!cytoscape) {
+      return;
+    } // can't register if cytoscape unspecified
+
+    // register with cytoscape.js
+    cytoscape('core', 'popperFactory', popperFactory); // Cytoscape Core factory
+    cytoscape('collection', 'popperFactory', popperFactory); //Cytoscape Collections factory
+    cytoscape('core', 'popper', coreImpl.popper); //Cytoscape Core
+    cytoscape('collection', 'popper', collectionImpl.popper); //Cytoscape Collections
+    cytoscape('core', 'popperRef', coreImpl.popperRef); //Cytoscape Core for References
+    cytoscape('collection', 'popperRef', collectionImpl.popperRef); //Cytoscape Collections for References
+  };
 };
 
-module.exports = register;
+module.exports = registerFactory;
 
 /***/ })
 /******/ ]);

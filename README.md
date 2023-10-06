@@ -27,39 +27,40 @@ ES import:
 
 ```js
 import cytoscape from 'cytoscape';
-import popper from 'cytoscape-popper';
+import cytoscapePopper from 'cytoscape-popper';
 
 function popperFactory(ref, content, opts) {
   // use floating-ui or Tippy here. See demo
   return {}
 }
 
-cytoscape.use( popper, popperFactory );
+cytoscape.use( cytoscapePopper(popperFactory) );
 ```
 
 CommonJS require:
 
 ```js
 let cytoscape = require('cytoscape');
-let popper = require('cytoscape-popper');
+let cytoscapePopper = require('cytoscape-popper');
 
 function popperFactory(ref, content, opts) {
    // use floating-ui or Tippy here. See demo
    return {}
 }
 
-cytoscape.use( popper, popperFactory ); // register extension
+cytoscape.use( cytoscapePopper(popperFactory) ); // register extension
 ```
 
 AMD:
 
 ```js
 require(['cytoscape', 'cytoscape-popper'], function( cytoscape, popper ){
+  function popperFactory(ref, content, opts) {
+    // use floating-ui or Tippy here. See demo
+    return {}
+  }
   // register extension
-  popper( cytoscape, function(ref, content, opts) {
-      // use floating-ui or Tippy here. See demo
-      return {}
-   } );
+  popper(popperFactory)(cytoscape);
 });
 ```
 
@@ -71,15 +72,15 @@ This extension exposes `popper()` and `popperRef()` functions and provided `popp
 
 Each function takes an options object, as follows:
 
-`cy.popper( options )` or `ele.popper( options )` : Make a PopperInstance for the specified core Cytoscape instance or the specified element.  This is useful for positioning a div relative to or on top of a core instance or element.
+`cy.popper( options )` or `ele.popper( options )` : Make a `PopperInstance` for the specified core Cytoscape instance or the specified element.  This is useful for positioning a div relative to or on top of a core instance or element.
 
-`cy.popperRef( options )` or `ele.popperRef( options )` : Make a PopperInstance for the specified core Cytoscape instance or the specified element.  A Popper virtual element is useful only for positioning, as it represent the target rather than the content.  This is useful for cases where you want to create a new Popper instance manually via Popper constructor `createPopper()` or where you need to pass a `popperRef` object to another library like Tippy.js.
+`cy.popperRef( options )` or `ele.popperRef( options )` : Make a `PopperInstance` for the specified core Cytoscape instance or the specified element.  A Popper virtual element is useful only for positioning, as it represent the target rather than the content.  This is useful for cases where you want to create a new Popper instance manually via Popper constructor `createPopper()` or where you need to pass a `popperRef` object to another library like Tippy.js.
 
  - `options`
    - `content` : The HTML content of the popper.  May be a DOM `Element` reference or a function that returns one.
    - `renderedPosition` : A function that can be used to override the [rendered Cytoscape position](http://js.cytoscape.org/#notation/position) of the Popper target.  This option is mandatory when using Popper on the core.  For an element, the centre of its bounding box is used by default.
    - `renderedDimensions` : A function that can be used to override the [rendered](http://js.cytoscape.org/#notation/position) Cytoscape [bounding box dimensions](http://js.cytoscape.org/#eles.renderedBoundingBox) considered for the popper target (i.e. `cy` or `ele`).  It defines only the effective width and height (`bb.w` and `bb.h`) of the Popper target.   This option is more often useful for elements rather than for the core.
-   - `popper` : The PopperOptions object. These options are used in provided `popperFactory`.
+   - `popper` : The `PopperOptions` object. These options are used in provided `popperFactory`.
 
 ## Usage with @floating-ui
 
@@ -104,7 +105,7 @@ function popperFactory(ref, content, opts) {
    return { update };
 }
 
-cytoscape.use(cytoscapePopper, popperFactory);
+cytoscape.use(cytoscapePopper(popperFactory));
 ```
 
 ### `popper()` example
@@ -214,8 +215,7 @@ function tippyFactory(ref, content){
    return tip;
 }
 
-cytoscape.use(cytoscapePopper, tippyFactory);
-
+cytoscape.use(cytoscapePopper(tippyFactory));
 ```
 The creation of many `Tippy` instances at once has performance implications, especially for large graphs.  Create each instance on demand, e.g. on `tap`.  Use [`destroy()`](https://atomiks.github.io/tippyjs/v6/methods/#destroy) instead of `hide()` where possible.
 
@@ -236,6 +236,35 @@ tip.show();
 ```
 
 Refer to [Tippy.js](https://atomiks.github.io/tippyjs/) documentation for more details.
+
+## v3 changes
+
+Since `Popper.js` has become `@floating-ui` and the API has changed a lot it becomes harder to support both versions
+(for example TippyJS, that supports only the previous version), so instead of depending on a specific external version
+this extension allows users to use any Popper library with providing `popperFactory` function during initializing.
+
+This version dropped the external dependency and changed the initializing api from `cytoscape.use(cytoscapePopper)` to `cytoscape.use(cytoscapePopper(popperFactory))`
+
+See popperFactory examples to save backward-compatibility with v2
+
+
+## Typescript
+
+This extension export empty `PopperInstance` and `PopperOptions` interfaces allows to extend them according to the final Popper implementation.
+
+`@floating-ui` example:
+```ts
+import { ComputePositionConfig } from '@floating-ui/dom';
+
+declare module 'cytoscape-popper' {
+  interface PopperOptions extends ComputePositionConfig {
+  }
+  interface PopperInstance {
+    update(): void;
+  }
+}
+
+```
 
 ## Build targets
 
