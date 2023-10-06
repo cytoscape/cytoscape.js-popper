@@ -44,7 +44,31 @@
 	</style>
 
 	<script>
+		function tippyFactory(ref, content){
+			// Since tippy constructor requires DOM element/elements, create a placeholder
+			var dummyDomEle = document.createElement('div');
+
+			var tip = tippy( dummyDomEle, {
+				getReferenceClientRect: ref.getBoundingClientRect,
+				trigger: 'manual', // mandatory
+				// dom element inside the tippy:
+				content: content,
+				// your own preferences:
+				arrow: true,
+				placement: 'bottom',
+				hideOnClick: false,
+				sticky: "reference",
+
+				// if interactive:
+				interactive: true,
+				appendTo: document.body // or append dummyDomEle to document.body
+			} );
+
+			return tip;
+		}
+
 		document.addEventListener('DOMContentLoaded', function () {
+			cytoscape.use(cytoscapePopper, tippyFactory);
 
 			var cy = window.cy = cytoscape({
 				container: document.getElementById('cy'),
@@ -85,46 +109,29 @@
 			var b = cy.getElementById('b');
 			var ab = cy.getElementById('ab');
 
-			var makeTippy = function(ele, text){
-				var ref = ele.popperRef();
+			var makeContent = function(text){
+				var div = document.createElement('div');
 
-				// Since tippy constructor requires DOM element/elements, create a placeholder
-				var dummyDomEle = document.createElement('div');
+				div.innerHTML = text;
 
-				var tip = tippy( dummyDomEle, {
-					getReferenceClientRect: ref.getBoundingClientRect,
-					trigger: 'manual', // mandatory
-					// dom element inside the tippy:
-					content: function(){ // function can be better for performance
-						var div = document.createElement('div');
-
-						div.innerHTML = text;
-
-						return div;
-					},
-					// your own preferences:
-					arrow: true,
-					placement: 'bottom',
-					hideOnClick: false,
-					sticky: "reference",
-
-					// if interactive:
-					interactive: true,
-					appendTo: document.body // or append dummyDomEle to document.body
-				} );
-
-				return tip;
+				return div;
 			};
 
-			var tippyA = makeTippy(a, 'foo');
+			var tippyA = a.popper({
+				content: makeContent('foo'),
+			});
 
 			tippyA.show();
 
-			var tippyB = makeTippy(b, 'bar');
+			var tippyB = b.popper({
+				content: makeContent('bar'),
+			});
 
 			tippyB.show();
 
-			var tippyAB = makeTippy(ab, 'baz');
+			var tippyAB = ab.popper({
+				content: makeContent('baz'),
+			});
 
 			tippyAB.show();
 		});

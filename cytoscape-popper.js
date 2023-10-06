@@ -1,13 +1,13 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("@popperjs/core"));
+		module.exports = factory();
 	else if(typeof define === 'function' && define.amd)
-		define(["@popperjs/core"], factory);
+		define([], factory);
 	else if(typeof exports === 'object')
-		exports["cytoscapePopper"] = factory(require("@popperjs/core"));
+		exports["cytoscapePopper"] = factory();
 	else
-		root["cytoscapePopper"] = factory(root["Popper"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_8__) {
+		root["cytoscapePopper"] = factory();
+})(this, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -146,18 +146,13 @@ var _require2 = __webpack_require__(6),
 
 var popperDefaults = {};
 
-var _require3 = __webpack_require__(8),
-    createPopper = _require3.createPopper;
-
 // Create a new popper object for a core or element target
-
-
 function getPopper(target, opts) {
   var refObject = getRef(target, opts);
   var content = getContent(target, opts.content);
   var popperOpts = assign({}, popperDefaults, opts.popper);
 
-  return createPopper(refObject, content, popperOpts);
+  return target.popperFactory(refObject, content, popperOpts);
 }
 
 module.exports = { getPopper: getPopper };
@@ -358,36 +353,28 @@ module.exports = { getContent: getContent };
 "use strict";
 
 
-/* global cytoscape */
-
 var coreImpl = __webpack_require__(4);
 var collectionImpl = __webpack_require__(3);
 
 // registers the extension on a cytoscape lib ref
-var register = function register(cytoscape) {
+var register = function register(cytoscape, popperFactory) {
   if (!cytoscape) {
     return;
   } // can't register if cytoscape unspecified
+  if (typeof popperFactory !== "function") {
+    throw new Error('No \'popperFactory\' function specified');
+  }
 
   // register with cytoscape.js
+  cytoscape('core', 'popperFactory', popperFactory); // Cytoscape Core factory
+  cytoscape('collection', 'popperFactory', popperFactory); //Cytoscape Collections factory
   cytoscape('core', 'popper', coreImpl.popper); //Cytoscape Core
   cytoscape('collection', 'popper', collectionImpl.popper); //Cytoscape Collections
   cytoscape('core', 'popperRef', coreImpl.popperRef); //Cytoscape Core for References
   cytoscape('collection', 'popperRef', collectionImpl.popperRef); //Cytoscape Collections for References
 };
 
-if (typeof cytoscape !== 'undefined') {
-  // expose to global cytoscape (i.e. window.cytoscape)
-  register(cytoscape);
-}
-
 module.exports = register;
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports) {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE_8__;
 
 /***/ })
 /******/ ]);

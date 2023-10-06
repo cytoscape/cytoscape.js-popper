@@ -11,7 +11,8 @@
 	<!-- for testing with local version of cytoscape.js -->
 	<!--<script src="../cytoscape.js/build/cytoscape.js"></script>-->
 
-  	<script src="https://unpkg.com/@popperjs/core@2"></script>
+	<script src="https://unpkg.com/@floating-ui/core@1.5.0"></script>
+	<script src="https://unpkg.com/@floating-ui/dom@1.5.3"></script>
 	<script src="cytoscape-popper.js"></script>
 
 	<style>
@@ -41,11 +42,29 @@
 			z-index: 9999;
 			padding: 0.25em;
 			pointer-events: none;
+			width: max-content;
+			position: absolute;
+			top: 0;
+			left: 0;
 		}
 	</style>
 
 	<script>
+		function popperFactory(ref, content, opts) {
+			function update() {
+				FloatingUIDOM.computePosition(ref, content, opts).then(({x, y}) => {
+					Object.assign(content.style, {
+						left: `${x}px`,
+						top: `${y}px`,
+					});
+				});
+			}
+			update();
+			return { update };
+		}
+
 		document.addEventListener('DOMContentLoaded', function () {
+			cytoscape.use(cytoscapePopper, popperFactory);
 
 			var cy = window.cy = cytoscape({
 				container: document.getElementById('cy'),
@@ -99,7 +118,7 @@
 			};
 
 			var popperA = a.popper({
-				content: function(){ return makeDiv('Sticky position div'); }
+				content: function(){ return makeDiv('Sticky position div'); },
 			});
 
 			var updateA = function(){
@@ -110,11 +129,11 @@
 			cy.on('pan zoom resize', updateA);
 
 			var popperB = b.popper({
-				content: function(){ return makeDiv('One time position div'); }
+				content: function(){ return makeDiv('One time position div'); },
 			});
 
 			var popperAB = ab.popper({
-				content: function(){ return makeDiv('Sticky position div'); }
+				content: function(){ return makeDiv('Sticky position div'); },
 			});
 
 			var updateAB = function(){
