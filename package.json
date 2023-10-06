@@ -3,6 +3,7 @@
   "version": "2.0.0",
   "description": "A Cytoscape.js extension for Popper.js",
   "main": "cytoscape-popper.js",
+  "types": "cytoscape-popper.d.ts",
   "author": "Cytoscape",
   "scripts": {
     "postpublish": "run-s gh-pages",
@@ -30,6 +31,7 @@
   },
   "homepage": "https://github.com/cytoscape/cytoscape.js-popper",
   "devDependencies": {
+    "@types/cytoscape": "^3.2.0",
     "babel-core": "^6.24.1",
     "babel-loader": "^7.0.0",
     "babel-preset-env": "^1.5.1",
@@ -42,6 +44,7 @@
     "mocha": "3.4.2",
     "npm-run-all": "^4.1.2",
     "rimraf": "^2.6.2",
+    "typescript": "^3.8.0",
     "update": "^0.7.4",
     "updater-license": "^1.0.0",
     "webpack": "^2.6.1",
@@ -50,6 +53,5 @@
   "peerDependencies": {
     "cytoscape": "^3.2.0"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }
