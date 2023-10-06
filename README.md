@@ -89,7 +89,7 @@ Each function takes an options object, as follows:
 
 ``` js
 import cytoscape from 'cytoscape';
-import popper from 'cytoscape-popper';
+import cytoscapePopper from 'cytoscape-popper';
 import {computePosition} from '@floating-ui/dom';
 
 function popperFactory(ref, content, opts) {
@@ -250,7 +250,7 @@ See popperFactory examples to save backward-compatibility with v2
 
 ## Typescript
 
-This extension export empty `PopperInstance` and `PopperOptions` interfaces allows to extend them according to the final Popper implementation.
+This extension exports empty `PopperInstance` and `PopperOptions` interfaces allows to extend them according to the final Popper implementation.
 
 `@floating-ui` example:
 ```ts
