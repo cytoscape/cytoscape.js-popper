@@ -5,9 +5,23 @@ cytoscape-popper
 
 ## Description
 
-A Cytoscape.js extension for integrating [Popper.js](https://popper.js.org/) ([demo](https://cytoscape.github.io/cytoscape.js-popper)) ([tippy demo](https://cytoscape.github.io/cytoscape.js-popper/demo-tippy.html))
+Popper allows you to dynamically align a div, e.g. a tooltip, to another element in the page.  This extension allows you to use any popper library on Cytoscape elements.  This allows you to create DOM elements positioned on or around Cytoscape elements.  It is useful for tooltips and overlays, for example.
 
-Popper allows you to dynamically align a div, e.g. a tooltip, to another element in the page.  This extension allows you to use any popper library (mostly `@floating-ui` (previously `Popper.js`) or `Tippy.js`) on Cytoscape elements.  This allows you to create DOM elements positioned on or around Cytoscape elements.  It is useful for tooltips and overlays, for example.
+Integration examples:
+- Floating UI - [demo](https://cytoscape.github.io/cytoscape.js-popper), [usage](#usage-with-floating-ui)
+- Popper.js@2 - [demo](https://cytoscape.github.io/cytoscape.js-popper/demo-popper.html), [usage](#usage-with-popperjs--deprecated-)
+- Tippy.JS - [demo](https://cytoscape.github.io/cytoscape.js-popper/demo-tippy.html), [usage](#usage-with-tippyjs)
+
+
+## Migration from v2
+
+Since `Popper.js` has become `@floating-ui` (https://floating-ui.com/docs/migration) and the API has changed a lot it becomes harder to support both versions
+(for example TippyJS, that supports only the previous version), so instead of depending on a specific external version
+this extension allows users to use any Popper library with providing `popperFactory` function during initializing.
+
+See [FloatingUI](#usage-with-floating-ui) or [Popper.js](#usage-with-popperjs--deprecated-) sections.
+
+
 
 ## Dependencies
 
@@ -30,8 +44,7 @@ import cytoscape from 'cytoscape';
 import cytoscapePopper from 'cytoscape-popper';
 
 function popperFactory(ref, content, opts) {
-  // use floating-ui or Tippy here. See demo
-  return {}
+  // See integration sections
 }
 
 cytoscape.use( cytoscapePopper(popperFactory) );
@@ -44,8 +57,7 @@ let cytoscape = require('cytoscape');
 let cytoscapePopper = require('cytoscape-popper');
 
 function popperFactory(ref, content, opts) {
-   // use floating-ui or Tippy here. See demo
-   return {}
+   // See integration sections
 }
 
 cytoscape.use( cytoscapePopper(popperFactory) ); // register extension
@@ -56,15 +68,12 @@ AMD:
 ```js
 require(['cytoscape', 'cytoscape-popper'], function( cytoscape, popper ){
   function popperFactory(ref, content, opts) {
-    // use floating-ui or Tippy here. See demo
-    return {}
+     // See integration sections
   }
   // register extension
   popper(popperFactory)(cytoscape);
 });
 ```
-
-Plain HTML/JS has the extension registered for you automatically, because no `require()` is needed.
 
 ## API
 
@@ -84,15 +93,30 @@ Each function takes an options object, as follows:
 
 ## Usage with @floating-ui
 
-
 ### Initializing
 
 ``` js
 import cytoscape from 'cytoscape';
 import cytoscapePopper from 'cytoscape-popper';
-import {computePosition} from '@floating-ui/dom';
+import {
+  computePosition,
+  flip,
+  shift,
+  limitShift,
+} from '@floating-ui/dom';
 
 function popperFactory(ref, content, opts) {
+   // see https://floating-ui.com/docs/computePosition#options
+   const popperOptions = {
+       // matching the default behaviour from Popper@2
+       // https://floating-ui.com/docs/migration#configure-middleware
+       middleware: [
+           flip(),
+           shift({limiter: limitShift()})
+       ],
+       ...opts,
+   }
+
    function update() {
        computePosition(ref, content, opts).then(({x, y}) => {
            Object.assign(content.style, {
@@ -138,8 +162,90 @@ let popper2 = cy.popper({
   renderedPosition: () => ({ x: 100, y: 200 }),
   popper: {
       placement: 'bottom',
-      middlewares: [shift()],
   } // @flaoting-ui options (https://floating-ui.com/docs/middleware)
+});
+```
+
+### `popperRef()` example
+
+``` js
+// create a basic popper ref for the first node
+let popperRef1 = cy.nodes()[0].popperRef();
+
+// create a basic popper ref on the core
+let popperRef2 = cy.popperRef({
+  renderedPosition: () => ({ x: 200, y: 300 })
+});
+```
+
+### Sticky `popper()` example
+
+```js
+let node = cy.nodes().first();
+
+let popper = node.popper({
+  content: () => {
+    let div = document.createElement('div');
+
+    div.innerHTML = 'Sticky Popper content';
+
+    document.body.appendChild( div );
+
+    return div;
+  }
+});
+
+let update = () => {
+  popper.update();
+};
+
+node.on('position', update);
+
+cy.on('pan zoom resize', update);
+```
+
+## Usage with Popper.js (deprecated)
+
+### Initializing
+
+``` js
+import cytoscape from 'cytoscape';
+import cytoscapePopper from 'cytoscape-popper';
+import { createPopper } from '@popperjs/core';
+
+cytoscape.use(cytoscapePopper(createPopper));
+```
+
+### `popper()` example
+
+``` js		
+// create a basic popper on the first node
+let popper1 = cy.nodes()[0].popper({
+  content: () => {
+    let div = document.createElement('div');
+
+    div.innerHTML = 'Popper content';
+
+    document.body.appendChild(div);
+
+    return div;
+  },
+  popper: {} // my popper options here
+});
+
+// create a basic popper on the core
+let popper2 = cy.popper({
+  content: () => {
+    let div = document.createElement('div');
+
+    div.innerHTML = 'Popper content';
+
+    document.body.appendChild(div);
+
+    return div;
+  },
+  renderedPosition: () => ({ x: 100, y: 200 }),
+  popper: {} // my popper options here
 });
 ```
 
@@ -236,17 +342,6 @@ tip.show();
 ```
 
 Refer to [Tippy.js](https://atomiks.github.io/tippyjs/) documentation for more details.
-
-## v3 changes
-
-Since `Popper.js` has become `@floating-ui` and the API has changed a lot it becomes harder to support both versions
-(for example TippyJS, that supports only the previous version), so instead of depending on a specific external version
-this extension allows users to use any Popper library with providing `popperFactory` function during initializing.
-
-This version dropped the external dependency and changed the initializing api from `cytoscape.use(cytoscapePopper)` to `cytoscape.use(cytoscapePopper(popperFactory))`
-
-See popperFactory examples to save backward-compatibility with v2
-
 
 ## Typescript
 
