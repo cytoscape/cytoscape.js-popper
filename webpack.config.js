@@ -22,14 +22,6 @@ let config = {
       { test: /\.js$/, exclude: /node_modules/, use: 'babel-loader' }
     ]
   },
-  externals: {
-    "@popperjs/core" : {
-      commonjs: "@popperjs/core",
-      commonjs2: "@popperjs/core",
-      amd: "@popperjs/core",
-      root: "Popper"
-    }
-  },
   plugins: MIN ? [
     new webpack.optimize.UglifyJsPlugin({
       compress: {
