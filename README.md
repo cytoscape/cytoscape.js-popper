@@ -118,7 +118,7 @@ function popperFactory(ref, content, opts) {
    }
 
    function update() {
-       computePosition(ref, content, opts).then(({x, y}) => {
+       computePosition(ref, content, popperOptions).then(({x, y}) => {
            Object.assign(content.style, {
                left: `${x}px`,
                top: `${y}px`,
