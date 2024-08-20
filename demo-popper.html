@@ -3,7 +3,7 @@
 <html>
 
 <head>
-	<title>cytoscape-popper + TippyJS demo</title>
+	<title>cytoscape-popper + Popper.js@2 demo</title>
 
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
 	<script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
@@ -13,8 +13,6 @@
 
 	<script src="https://unpkg.com/@popperjs/core@2"></script>
 	<script src="cytoscape-popper.js"></script>
-
-	<script src="https://unpkg.com/tippy.js@6"></script>
 
 	<style>
 		body {
@@ -37,38 +35,19 @@
 			font-weight: bold;
 		}
 
-		/* makes sticky faster; disable if you want animated tippies */
-		.tippy-popper {
-			transition: none !important;
+		.popper-div { /* just an example */
+			border: 1px solid red;
+			background: #fff;
+			z-index: 9999;
+			padding: 0.25em;
+			pointer-events: none;
 		}
 	</style>
 
 	<script>
-		function tippyFactory(ref, content){
-			// Since tippy constructor requires DOM element/elements, create a placeholder
-			var dummyDomEle = document.createElement('div');
-
-			var tip = tippy( dummyDomEle, {
-				getReferenceClientRect: ref.getBoundingClientRect,
-				trigger: 'manual', // mandatory
-				// dom element inside the tippy:
-				content: content,
-				// your own preferences:
-				arrow: true,
-				placement: 'bottom',
-				hideOnClick: false,
-				sticky: "reference",
-
-				// if interactive:
-				interactive: true,
-				appendTo: document.body // or append dummyDomEle to document.body
-			} );
-
-			return tip;
-		}
-
 		document.addEventListener('DOMContentLoaded', function () {
-			cytoscape.use(cytoscapePopper(tippyFactory));
+			// Popper from @popperjs/core
+			cytoscape.use(cytoscapePopper(Popper.createPopper));
 
 			var cy = window.cy = cytoscape({
 				container: document.getElementById('cy'),
@@ -109,37 +88,49 @@
 			var b = cy.getElementById('b');
 			var ab = cy.getElementById('ab');
 
-			var makeContent = function(text){
+			var makeDiv = function(text){
 				var div = document.createElement('div');
 
+				div.classList.add('popper-div');
+
 				div.innerHTML = text;
+
+				document.body.appendChild( div );
 
 				return div;
 			};
 
-			var tippyA = a.popper({
-				content: makeContent('foo'),
+			var popperA = a.popper({
+				content: function(){ return makeDiv('Sticky position div'); },
 			});
 
-			tippyA.show();
+			var updateA = function(){
+				popperA.update();
+			};
 
-			var tippyB = b.popper({
-				content: makeContent('bar'),
+			a.on('position', updateA);
+			cy.on('pan zoom resize', updateA);
+
+			var popperB = b.popper({
+				content: function(){ return makeDiv('One time position div'); },
 			});
 
-			tippyB.show();
-
-			var tippyAB = ab.popper({
-				content: makeContent('baz'),
+			var popperAB = ab.popper({
+				content: function(){ return makeDiv('Sticky position div'); },
 			});
 
-			tippyAB.show();
+			var updateAB = function(){
+				popperAB.update();
+			};
+
+			ab.connectedNodes().on('position', updateAB);
+			cy.on('pan zoom resize', updateAB);
 		});
 	</script>
 </head>
 
 <body>
-	<h1>cytoscape-popper + TippyJS demo</h1>
+	<h1>cytoscape-popper + Popper.js@2 demo</h1>
 	<div id="cy"></div>
 </body>
 
